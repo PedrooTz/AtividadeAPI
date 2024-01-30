@@ -1,3 +1,21 @@
+/********************************************************
+ * Objetivo: Arquivo para realizar as requisições de filmes
+ * Data: 30/01/2024
+ * Autor: Pedro Pedraga
+ * Versão: 1.0
+ ********************************************************/
+
+/**********************************************
+ * Para realizar a conexão com o banco de dados 
+ * precisamos utilizar uma dependencia:
+ *    - SEQUELIZE ORM
+ *    - PRISMA    ORM 
+ *    - FASTFY    ORM
+ * 
+ * Prisma: 
+ * npm install prisma --save
+ *******************************************/
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -18,16 +36,25 @@ app.use((request, response, next)=>{
     next();
 })
 
-app.get('/v1/filmesacme', cors(), async function(request, response,next){
-    let controleFilme = require('./controller/main');
-    let categorias = controleFilme.getDadosFilmes();
+// app.get('/v1/filmesacme', cors(), async function(request, response,next){
+//     let controleFilme = require('./controller/main');
+//     let categorias = controleFilme.getDadosFilmes();
 
-    console.log(categorias);
+//     response.json(categorias);
+//     response.status(200);
+// });
+
+app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
+
+    let idFilme = request.params.id
+    let controleFilme = require('./controller/main');
+    let categorias = controleFilme.getIdFilmes(idFilme);
+
     response.json(categorias);
     response.status(200);
 });
 
 app.listen(8080, function(){
-    console.log('Tá funcionando');
+    console.log('Tá funcionando, testa aí');
 })
 

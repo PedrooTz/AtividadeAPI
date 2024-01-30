@@ -7,6 +7,7 @@ const getDadosFilmes = () => {
 
     let filmes = filmesAcme.filmes
     let arrayDados = []
+    let JsonDados = {}
 
     filmes.filmes.forEach( (dados) => {
         arrayDados.push(dados.id)
@@ -21,7 +22,7 @@ const getDadosFilmes = () => {
 
     JsonDados.filmes = arrayDados
 
-    return arrayDados
+    return JsonDados
     
     };
 
@@ -34,7 +35,7 @@ const getDadosFilmes = () => {
 
        
         let filmes = filmesAcme.filmes
-        let JsonDados
+        let ArrayDados = []
         let produtoId = id
         let status = false
        
@@ -70,7 +71,7 @@ const getDadosFilmes = () => {
     
     
         
-    console.log(getIdFilmes())
+    // console.log(getIdFilmes())
     // console.log(getDadosFilmes())
 
     module.exports = {
