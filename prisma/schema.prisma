@@ -6,6 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+// Exemplo de como criar uma tabela no banco de dados usando o orm prisma
+
+model tbl_teste {
+  id Int @id @default(autoincrement())
+  nome String
 }

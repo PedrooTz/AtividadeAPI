@@ -12,8 +12,13 @@
  *    - PRISMA    ORM 
  *    - FASTFY    ORM
  * 
- * Prisma: 
- * npm install prisma --save
+ * Prisma - Para utilizar o prisma é necessário os comandos abaixos
+ *     npm install prisma --save
+ *     npm install @prisma/client --save
+ *     
+ * Para inicializar o prisma:
+ *     npx prisma init
+ * 
  *******************************************/
 
 const express = require('express');
@@ -25,6 +30,11 @@ const app = express();
 //request - Receber dados
 //response - Devolve dados
 
+// *************************** Imports e arquivos e bibliotecas ************************************ //
+
+    const controllerFilmes = require('./controller/controller_filme.js')
+
+// ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
     //Configura quem poderá fazer requisições na API (* - libera para todos | IP restringe o acesso)
@@ -36,13 +46,13 @@ app.use((request, response, next)=>{
     next();
 })
 
-// app.get('/v1/filmesacme', cors(), async function(request, response,next){
-//     let controleFilme = require('./controller/main');
-//     let categorias = controleFilme.getDadosFilmes();
+app.get('/v1/filmesacme', cors(), async function(request, response,next){
+    let controleFilme = require('./controller/main');
+    let categorias = controleFilme.getDadosFilmes();
 
-//     response.json(categorias);
-//     response.status(200);
-// });
+    response.json(categorias);
+    response.status(200);
+});
 
 app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
 
@@ -53,6 +63,21 @@ app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
     response.json(categorias);
     response.status(200);
 });
+
+    app.get('/v2/acmefilmes/filmes', cors(), async function(request,response,next){
+    
+        // Chama a função para retornar os dados do filme
+        let dadosFilmes = await controllerFilmes.getListarFilmes();
+
+        // Validação para verificar se existem dados
+        if(dadosFilmes){
+            response.json(dadosFilmes)
+            response.status(200);
+        }else{
+            response.json({message: 'Nenhum registro encontrado'})
+            response.status()
+        }
+    });
 
 app.listen(8080, function(){
     console.log('Tá funcionando, testa aí');
