@@ -40,12 +40,13 @@ const selectAllFilmes = async function(){
     let rsFilmes = await prisma.$queryRawUnsafe(sql)
      // Para usar await a função necessita ser async(async function)
 
-
     // Tratamento de erro para retornar dados ou retornar false
      if(rsFilmes.length > 0)
      return rsFilmes;
      else
         return false
+
+       
 
 
 }
@@ -53,6 +54,15 @@ const selectAllFilmes = async function(){
 // Listar filme filtrando pelo ID
 const selectByIdFilme =  async function(id){
 
+}
+const SelectByNome = async function(){
+
+    let filme
+    let sql = 'select * from tbl_filme where nome like '%filme%''
+    
+    let filtroFilmes = await prisma.$queryRawUnsafe(sql)
+
+   
 }
 
 module.exports = {

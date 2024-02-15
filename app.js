@@ -27,12 +27,16 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+
+const { PrismaClient } = require('@prisma.client')
+
+const prisma = new PrismaClient()
 //request - Receber dados
 //response - Devolve dados
 
 // *************************** Imports e arquivos e bibliotecas ************************************ //
 
-    const controllerFilmes = require('./controller/controller_filme.js')
+    const controllerFilmes = require('./controller/controller_filme.js');
 
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
@@ -83,3 +87,16 @@ app.listen(8080, function(){
     console.log('Tá funcionando, testa aí');
 })
 
+// Buscar o filme pelo seu nome
+
+    app.get('/v2/acmefilmes/filmes', cors(), async function(request,response,next){
+
+
+        if(filtroFilmes){
+        response.json(filtroFilmes)
+        response.status(200);
+        } else {
+            response.json({ message: 'Nenhum registro encontrado'})
+            response.status()
+        }
+    });
