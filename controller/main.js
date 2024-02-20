@@ -30,7 +30,7 @@ const getDadosFilmes = () => {
 
     // ****************************************************************************
 
-    const getIdFilmes = (id = "2") => {
+    const getIdFilmes = () => {
 
 
        

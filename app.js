@@ -27,10 +27,6 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-
-const { PrismaClient } = require('@prisma.client')
-
-const prisma = new PrismaClient()
 //request - Receber dados
 //response - Devolve dados
 
@@ -83,10 +79,6 @@ app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
         }
     });
 
-app.listen(8080, function(){
-    console.log('Tá funcionando, testa aí');
-})
-
 // Buscar o filme pelo seu nome
 
     app.get('/v2/acmefilmes/filmes', cors(), async function(request,response,next){
@@ -100,3 +92,20 @@ app.listen(8080, function(){
             response.status()
         }
     });
+// Endpoint: Retorna os dados do filme filtrando pelo ID
+
+app.get('/v2/acmefilmes/filme/:id', cors(), async function(request, response, next){
+    // Recebe o id da requisição 
+    let idFilme = request.params.id;
+
+    // Solicita para a controller o filme filtrando pelo id
+    let dadosFilme = await controllerFilmes.getBuscarFilme(idFilme);
+
+     response.status(dadosFilme.status_code);
+    response.json(dadosFilme);
+   
+});
+
+app.listen(8080, function(){
+        console.log('Tá funcionando, testa aí');
+})

@@ -52,9 +52,20 @@ const selectAllFilmes = async function(){
 }
 
 // Listar filme filtrando pelo ID
-const selectByIdFilme =  async function(id){
+const selectByIdFilme =  async function(id){    
+    try {
+    // Realiza a busca do filme pelo ID
+    let sql = `select * from tbl_filme where id = ${id}`
 
-}
+    // Executa no banco de dados o script sql
+    let rsFilme = await prisma.$queryRawUnsafe(sql);
+        return rsFilme;
+
+    } catch (error) {
+        return false;
+        
+    }
+} 
 const SelectByNome = async function(){
 
     let filme
