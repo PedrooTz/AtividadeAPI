@@ -27,6 +27,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// Cria um objeto do tipo JSON para receber os dados via body nas requisições POST ou PUT
+const bodyParserJSON = bodyParser.json
+
 //request - Receber dados
 //response - Devolve dados
 
@@ -92,8 +95,8 @@ app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
             response.status()
         }
     });
-// Endpoint: Retorna os dados do filme filtrando pelo ID
 
+// Endpoint: Retorna os dados do filme filtrando pelo ID
 app.get('/v2/acmefilmes/filme/:id', cors(), async function(request, response, next){
     // Recebe o id da requisição 
     let idFilme = request.params.id;
@@ -105,6 +108,19 @@ app.get('/v2/acmefilmes/filme/:id', cors(), async function(request, response, ne
     response.json(dadosFilme);
    
 });
+
+// Endpoint : Para inserir novos filmes no banco de dados
+    // Não esquecer de colocar a variável(Início do código) que retorna os dados no formato JSON
+app.post('v2/acmefilmes/filme', cors(), bodyParserJSON, async function(request, response,next){
+    // Recebe os dados encaminhados na requisição do body (JSON)
+    let dadosBody = request.body;
+
+    // Encaminha os dados da requisição para a controller enviar para o banco de dados
+    let resultDados = await controllerFilmes.setInserirNovoFilme(dadosBody);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+})
 
 app.listen(8080, function(){
         console.log('Tá funcionando, testa aí');
