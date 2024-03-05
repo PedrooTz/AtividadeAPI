@@ -29,32 +29,45 @@ const setInserirNovoFilme = async function(dadosFilme){
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
      }else{
+        // Variável para validar se poderemos chamar o DAO para inserir os dados
         let dadosValidated = false;
 
-        if( dadosFilme.data_relancamento != null){
-            if( dadosFilme.data_relancamento.length > 10 )
+        // Validação de digitação para a data de relançamento que não é campo obrigatório
+        if( dadosFilme.data_relancamento != null &&
+             dadosFilme.data_relancamento != undefined && 
+             dadosFilme.data_relancamento != ""
+        ){
+            if( dadosFilme.data_relancamento.length != 10 )
             return message.ERROR_REQUIRED_FIELDS
             else
-            dadosValidated = true
+            dadosValidated = true // Se a data estiver com exatos 10 caracteres
         }else{
-            dadosValidated= true
+            dadosValidated= true // Se a data não existir nos dados
         }
+        // Validação para verificar se podemos encaminhar os dados para o DAO
         if(dadosValidated){
+
         
         // Encaminha os dados para o DAO, inserir no Banco de Dados
         let novoFilme = await filmesDAO.insertFilme(dadosFilme);
 
+        
         // Validação de inserção de dados no banco de dados 
         if(novoFilme){
+
+            let id = await filmesDAO.selectIdFilme();
+            console.log(id)
+            dadosFilme.id = (Number(id))
+            
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosFilme.status = message.SUCESS_CREATED_ITEM.status;
-            resultDadosFilme.status_code = message.status_code;
+            resultDadosFilme.status_code = message.SUCESS_CREATED_ITEM.status_code;
             resultDadosFilme.message = message.SUCESS_CREATED_ITEM.message;
             resultDadosFilme.filme = dadosFilme;
 
             return resultDadosFilme; // 201
         } else{
-            return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Bancp)
+            return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
         }
 
 
@@ -64,6 +77,8 @@ const setInserirNovoFilme = async function(dadosFilme){
 
 
 }
+
+
 
 // Função para atualizar um filme existente
 const setAtualizarFilme = async function (){
@@ -143,6 +158,7 @@ const getBuscarFilme = async function(id){
 
 
 }
+
 
 module.exports = {
     setAtualizarFilme,

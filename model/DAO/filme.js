@@ -18,7 +18,9 @@ const insertFilme =  async function(dadosFilme) {
     try {
 
      let sql;
-        if(dadosFilme.data_relancamento == null || dadosFilme.data_relancamento == '' || dadosFilme.data_relancamento == undefined){
+        if( dadosFilme.data_relancamento == null || 
+            dadosFilme.data_relancamento == ''   ||
+             dadosFilme.data_relancamento == undefined){
              // Script SQL para inserir no banco de dados
             sql = `insert into tbl_filme (
                 nome,
@@ -76,6 +78,20 @@ const insertFilme =  async function(dadosFilme) {
     }
 }
 
+const selectIdFilme = async function() {
+
+    try {
+
+    let sql = `select CAST(last_insert_id() as DECIMAL) as id from tbl_filme limit 1`
+
+    let filmeId = await prisma.$queryRawUnsafe(sql)
+     return filmeId
+    } catch (error) {
+        return false
+        
+    }   
+}
+
 // Atualizar um Filme existente filtrando pelo ID
 const updateFilme = async function(id) {
 
@@ -90,7 +106,7 @@ const deleteFilme = async function(id) {
 const selectAllFilmes = async function(){
 
     // Script sql para listar todos os registros
-    let sql = 'select * from tbl_filme';
+    let sql = 'select * from tbl_filme order by id desc';
 
     // $queryRawUnsafe(sql)  = Encaminha apenas a variável
     // $queryRaw('select * from tbl_filme) = Encaminha o script do banco 
@@ -132,14 +148,19 @@ const SelectByNome = async function(){
     
     let filtroFilmes = await prisma.$queryRawUnsafe(sql)
 
+    filtroFilmes = filme
+
    
 }
+
+
 
 module.exports = {
     insertFilme,
     updateFilme,
     deleteFilme,
     selectAllFilmes,
-    selectByIdFilme
+    selectByIdFilme,
+    selectIdFilme
 }
 
