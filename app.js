@@ -85,7 +85,7 @@ app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
 // Buscar o filme pelo seu nome
 
     app.get('/v2/acmefilmes/filmes', cors(), async function(request,response,next){
-
+    
 
         if(filtroFilmes){
         response.json(filtroFilmes)
@@ -112,20 +112,33 @@ app.get('/v2/acmefilmes/filme/:id', cors(), async function(request, response, ne
 // Endpoint : Para inserir novos filmes no banco de dados
     // Não esquecer de colocar a variável(Início do código) que retorna os dados no formato JSON
 app.post('/v2/acmefilmes/filme', cors(), bodyParserJSON, async function(request, response,next){
+
+     // Recebe o content-type da requisição (API deve receber application/json )
+    let contentType = request.headers['content-type'];
+
     // Recebe os dados encaminhados na requisição do body (JSON)
     let dadosBody = request.body;
 
     
     // Encaminha os dados da requisição para a controller enviar para o banco de dados
-    let resultDados = await controllerFilmes.setInserirNovoFilme(dadosBody);
+    let resultDados = await controllerFilmes.setInserirNovoFilme(dadosBody, contentType);
 
     response.status(resultDados.status_code);
     response.json(resultDados);
 })
 
-// Retorna o ID do último filme feito atráves do método POST
+// Deleta um filme a partir de seu ID
+app.delete('/v2/acmefilmes/filmes:id', cors(), async function(request, response, next){
 
+    let idFilme = request.params.id
 
+    let dadosFilme = await controllerFilmes.setExcluirFilme(idFilme)
+
+    console.log(dadosFilme)
+
+    response.status(dadosFilme.status_code);
+    response.json(dadosFilme);
+})
 app.listen(8080, function(){
         console.log('Tá funcionando, testa aí');
 })

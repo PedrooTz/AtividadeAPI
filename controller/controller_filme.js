@@ -14,7 +14,14 @@ const filmesDAO = require('../model/DAO/filme.js');
 const { filmes } = require('../modulo/Filmes.js');
 
 // Função para inserir um novo filme no banco de dados
-const setInserirNovoFilme = async function(dadosFilme){
+const setInserirNovoFilme = async function(dadosFilme, contentType){
+
+    try{
+
+   
+    if(String(contentType).toLowerCase() == 'application/json'){
+
+    
 
     // Cria a variável json
     let resultDadosFilme = {}
@@ -55,9 +62,9 @@ const setInserirNovoFilme = async function(dadosFilme){
         // Validação de inserção de dados no banco de dados 
         if(novoFilme){
 
-            let id = await filmesDAO.selectIdFilme();
-            console.log(id)
-            dadosFilme.id = (Number(id))
+            let idSelect = await filmesDAO.selectIdFilme();
+
+            dadosFilme.id = Number (idSelect[0].id)
             
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosFilme.status = message.SUCESS_CREATED_ITEM.status;
@@ -68,11 +75,17 @@ const setInserirNovoFilme = async function(dadosFilme){
             return resultDadosFilme; // 201
         } else{
             return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
-        }
+            }
 
 
-     }
+         }
+       }
+    }else{
+        return message.ERROR_CONTENT_TYPE // 415 Erro no content type
     }
+}catch(error){
+    return message.ERROR_INTERNAL_SERVER // 500 Erro na camada de aplicação
+}
      
 
 
@@ -87,6 +100,42 @@ const setAtualizarFilme = async function (){
 
 // Função para excluir um filme existente
 const setExcluirFilme = async  function(id){
+
+    try {
+
+        let excluirFilme = id; 
+
+        let filmeJSON = {};
+    
+        if (excluirFilme == '' || excluirFilme == undefined || isNaN(excluirFilme)){
+            return message.ERROR_INVALID_ID;
+        }else{
+    
+          
+            let dadosFilme = await filmesDAO.selectByIdFilme(id)
+    
+            // Validação para verificar se existem dados encontrados
+            if(dadosFilme){
+                // Validação para verificar se existem dados de retorno
+                if(dadosFilme.length > 0){
+                filmeJSON.filme = dadosFilme;
+                filmeJSON.status_code = message.SUCESS_DELETED_ITEM
+    
+                return filmeJSON; // 200
+            }else{
+                return message.ERROR_NOT_FOUND; //404
+            }
+            }else{
+                return message.ERROR_INTERNAL_SERVER_DB; // 500
+            }
+        
+
+        }
+
+
+    } catch (error) {
+        return false
+    }
 
 }
 

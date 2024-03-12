@@ -16,9 +16,15 @@ const ERROR_NOT_FOUND = {status: false, status_code: 404, message:'Nenhum item e
 
 const ERROR_INTERNAL_SERVER_DB = {status: false, status_code: 500, message:'Ocorreu um erro no servidor interno do Banco de Dados, por favor contate o administrador para solucionar'}
 
+const ERROR_INTERNAL_SERVER = {status: false, status_code: 500, message:'Ocorreu um erro no servidor interno na camada de negócio da API, por favor contate o administrador para solucionar'}
+
+const ERROR_CONTENT_TYPE = {status: false, status_code: 415, message:'O Content-Type da requisição não é suportado. Precisa ser enviado dados no formato application/json'}
+
 /******************* MENSAGENS DE SUCESSO *********************/
 
 const SUCESS_CREATED_ITEM = {status: true, status_code: 201, message:'Item inserido com sucesso!'}
+
+const SUCESS_DELETED_ITEM = {status: true, status_code: 201, message:'Item inserido com sucesso!'}
 
 
 
@@ -26,7 +32,10 @@ module.exports = {
     ERROR_INVALID_ID,
     ERROR_NOT_FOUND,
     ERROR_INTERNAL_SERVER_DB,
+    ERROR_INTERNAL_SERVER,
     ERROR_REQUIRED_FIELDS,
-    SUCESS_CREATED_ITEM
+    SUCESS_CREATED_ITEM,
+    SUCESS_DELETED_ITEM,
+    ERROR_CONTENT_TYPE
   
 }
