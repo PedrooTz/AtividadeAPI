@@ -94,7 +94,18 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
 
 
 // Função para atualizar um filme existente
-const setAtualizarFilme = async function (){
+const setAtualizarFilme = async function (id, dadosFilme){
+    try {
+        
+        let idFilme = id; 
+        if (idFilme  == '' || idFilme == undefined || isNaN(idFilme)){
+            return message.ERROR_INVALID_ID;
+        }else{
+
+        }
+    } catch (error) {
+        
+    }
 
 }
 
@@ -103,38 +114,33 @@ const setExcluirFilme = async  function(id){
 
     try {
 
-        let excluirFilme = id; 
-
-        let filmeJSON = {};
+        let idFilme = id; 
     
-        if (excluirFilme == '' || excluirFilme == undefined || isNaN(excluirFilme)){
+        if (idFilme  == '' || idFilme == undefined || isNaN(idFilme)){
             return message.ERROR_INVALID_ID;
         }else{
-    
-          
-            let dadosFilme = await filmesDAO.selectByIdFilme(id)
-    
-            // Validação para verificar se existem dados encontrados
-            if(dadosFilme){
-                // Validação para verificar se existem dados de retorno
-                if(dadosFilme.length > 0){
-                filmeJSON.filme = dadosFilme;
-                filmeJSON.status_code = message.SUCESS_DELETED_ITEM
-    
-                return filmeJSON; // 200
-            }else{
-                return message.ERROR_NOT_FOUND; //404
-            }
-            }else{
-                return message.ERROR_INTERNAL_SERVER_DB; // 500
-            }
+            let chamarConst = await filmesDAO.selectByIdFilme(idFilme)
+ 
+            if(chamarConst.length > 0){
+           
+                let dadosFilme = await filmesDAO.deleteFilme(id)
         
-
+                // Validação para verificar se existem dados encontrados
+                if(dadosFilme){
+                    // Validação para verificar se existem dados de retorno
+                 
+                    return message.SUCESS_DELETED_ITEM; //200
+                }else{
+                    return message.ERROR_INTERNAL_SERVER_DB
+                }
+        
+            }else{
+                return message.ERROR_NOT_FOUND
+            }
         }
 
-
     } catch (error) {
-        return false
+        return message.ERROR_INTERNAL_SERVER
     }
 
 }

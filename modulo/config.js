@@ -22,9 +22,9 @@ const ERROR_CONTENT_TYPE = {status: false, status_code: 415, message:'O Content-
 
 /******************* MENSAGENS DE SUCESSO *********************/
 
-const SUCESS_CREATED_ITEM = {status: true, status_code: 201, message:'Item inserido com sucesso!'}
+const SUCESS_CREATED_ITEM = {status: true, status_code: 200, message:'Item inserido com sucesso!'}
 
-const SUCESS_DELETED_ITEM = {status: true, status_code: 201, message:'Item inserido com sucesso!'}
+const SUCESS_DELETED_ITEM = {status: true, status_code: 200, message:'Item deletado com sucesso!'}
 
 
 

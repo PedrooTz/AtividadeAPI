@@ -128,13 +128,11 @@ app.post('/v2/acmefilmes/filme', cors(), bodyParserJSON, async function(request,
 })
 
 // Deleta um filme a partir de seu ID
-app.delete('/v2/acmefilmes/filmes:id', cors(), async function(request, response, next){
+app.delete('/v2/acmefilmes/filmes/:id', cors(), async function(request, response, next){
 
     let idFilme = request.params.id
 
-    let dadosFilme = await controllerFilmes.setExcluirFilme(idFilme)
-
-    console.log(dadosFilme)
+    let dadosFilme = await controllerFilmes.setExcluirFilme(idFilme);
 
     response.status(dadosFilme.status_code);
     response.json(dadosFilme);
