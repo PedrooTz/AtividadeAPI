@@ -132,10 +132,22 @@ app.delete('/v2/acmefilmes/filmes/:id', cors(), async function(request, response
 
     let idFilme = request.params.id
 
-    let dadosFilme = await controllerFilmes.setExcluirFilme(idFilme);
+    let resultDados = await controllerFilmes.setExcluirFilme(idFilme);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+})
+
+// Faz o update de um filme existente
+app.put('/v2/acmefilmes/filmes/:id', cors(), async function(request,response, next){
+    let idFilme = request.params.id
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let dadosFilme = await controllerFilmes.setAtualizarFilme(idFilme, contentType, dadosBody);
 
     response.status(dadosFilme.status_code);
-    response.json(dadosFilme);
+    response.json(dadosFilme)
 })
 app.listen(8080, function(){
         console.log('Tá funcionando, testa aí');

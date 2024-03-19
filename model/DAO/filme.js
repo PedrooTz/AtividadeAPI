@@ -95,6 +95,39 @@ const selectIdFilme = async function() {
 // Atualizar um Filme existente filtrando pelo ID
 const updateFilme = async function(id) {
 
+    try {
+        let sql;
+        if( dadosFilme.data_relancamento == null || 
+            dadosFilme.data_relancamento == ''   ||
+             dadosFilme.data_relancamento == undefined){
+             // Script SQL para inserir no banco de dados
+            sql = `UPDATE tbl_filme SET
+                '${dadosFilme.nome}',
+                '${dadosFilme.sinopse}',
+                '${dadosFilme.data_lancamento}',
+                 null,
+                '${dadosFilme.duracao}',
+                '${dadosFilme.foto_capa}',
+                '${dadosFilme.valor_unitario}'
+            )`;
+
+        }else{
+             // Script SQL para inserir no banco de dados
+            sql = `UPDATE tbl_filme SET
+            '${dadosFilme.nome}',
+            '${dadosFilme.sinopse}',
+            '${dadosFilme.data_lancamento}',
+            '${dadosFilme.data_relancamento}',
+            '${dadosFilme.duracao}',
+            '${dadosFilme.foto_capa}',
+            '${dadosFilme.valor_unitario}'
+        )`;
+        }
+        
+    } catch (error) {
+        
+    }
+
 }
 
 // Excluir um filme filtrando pelo id
