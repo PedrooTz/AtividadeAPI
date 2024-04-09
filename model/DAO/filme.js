@@ -187,17 +187,6 @@ const selectByIdFilme =  async function(id){
         
     }
 } 
-const SelectByNome = async function(){
-
-    let filme
-    let sql = 'select * from tbl_filme where nome like '%filme%''
-    
-    let filtroFilmes = await prisma.$queryRawUnsafe(sql)
-
-    filtroFilmes = filme
-
-   
-}
 
 
 

@@ -37,6 +37,8 @@ const bodyParserJSON = bodyParser.json();
 
     const controllerFilmes = require('./controller/controller_filme.js');
 
+    const controllerAtores = require('./controller/controller_atores.js')
+
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
@@ -149,6 +151,32 @@ app.put('/v2/acmefilmes/filmes/:id', cors(), async function(request,response, ne
     response.status(dadosFilme.status_code);
     response.json(dadosFilme)
 })
+
+// ***************************************************************************************************************************************** //
+// ***************************************************************************************************************************************** //
+ 
+
+// ***************************************************************************************************************************************** //
+// ************************************************************ CRUD DOS ATORES ************************************************************ //
+// ***************************************************************************************************************************************** //
+
+
+app.get('/v3/acmefilmes/atores', cors(), async function(request, response, next){
+
+      // Chama a função para retornar os dados do filme
+      let dadosAtores = await controllerAtores.getListarAtores();
+
+      // Validação para verificar se existem dados
+      if(dadosAtores){
+          response.json(dadosAtores)
+          response.status(200);
+      }else{
+          response.json({message: 'Nenhum registro encontrado'})
+          response.status()
+      }
+  });
+    
+
 app.listen(8080, function(){
         console.log('Tá funcionando, testa aí');
 })
