@@ -12,44 +12,44 @@ const { PrismaClient } = require ('@prisma/client')
 const prisma = new PrismaClient();
 
 // Inserir um novo filme
-const insertAtor =  async function(dadosFilme) {
+const insertAtor =  async function(dadosAtores) {
     
     try {
 
      let sql;
-        if( dadosFilme.datafalecimento == null || 
-            dadosFilme.datafalecimento == ''   ||
-             dadosFilme.datafalecimento == undefined){
+        if( dadosAtores.datafalecimento == null || 
+            dadosAtores.datafalecimento == ''   ||
+            dadosAtores.datafalecimento == undefined){
              // Script SQL para inserir no banco de dados
-            sql = `insert into tbl_filme (
+            sql = `insert into tbl_atores (
                 nome,
                 data_nascimento,
                 foto,
                 data_falecimento,
                 biografia,
             ) values (
-                '${dadosFilme.nome}',
-                '${dadosFilme.data_nascimento}',
-                '${dadosFilme.foto}',
+                '${dadosAtores.nome}',
+                '${dadosAtores.data_nascimento}',
+                '${dadosAtores.foto}',
                  null,
-                '${dadosFilme.biografia}',
+                '${dadosAtores.biografia}',
           
             )`;
 
         }else{
              // Script SQL para inserir no banco de dados
-            sql = `insert into tbl_filme (
+            sql = `insert into tbl_atores (
                 nome,
                 data_nascimento,
                 foto,
                 data_falecimento,
                 biografia,
         ) values (
-            '${dadosFilme.nome}',
-            '${dadosFilme.data_nascimento}',
-            '${dadosFilme.foto}',
-            '${dadosFilme.data_falecimento}',
-            '${dadosFilme.biografia}',
+            '${dadosAtores.nome}',
+            '${dadosAtores.data_nascimento}',
+            '${dadosAtores.foto}',
+            '${dadosAtores.data_falecimento}',
+            '${dadosAtores.biografia}',
          
         )`;
         }
@@ -77,7 +77,7 @@ const updateAtor = async function(id){
 const selectAllAtors = async function(){
 
       // Script sql para listar todos os registros
-      let sql = 'select * from tbl_filme order by id desc';
+      let sql = 'select * from tbl_atores order by id desc';
 
       // $queryRawUnsafe(sql)  = Encaminha apenas a variável
       // $queryRaw('select * from tbl_filme) = Encaminha o script do banco 
@@ -93,8 +93,38 @@ const selectAllAtors = async function(){
           return false
   
 }
+const selectAtorsById = async function(id){
+    try {
+        // Realiza a busca do filme pelo ID
+        let sql = `select * from tbl_atores where id = ${id}`;
+    
+        // Executa no banco de dados o script sql
+        let rsAtores = await prisma.$queryRawUnsafe(sql);
+
+            return rsAtores;
+    
+        } catch (error) {
+            return false;
+            
+        }
+}
+
+const delectAtorsById = async function(id){
+    try {
+        let sql = `delete from tbl_atores where id = ${id}`
+
+        let rsAtores = await prisma.$queryRawUnsafe(sql);
+        return rsAtores;
+        
+    } catch (error) {
+        return false
+        
+    }
+}
 module.exports = {
     selectAllAtors, 
-    insertAtor
+    selectAtorsById,
+    insertAtor,
+    delectAtorsById
 }
 

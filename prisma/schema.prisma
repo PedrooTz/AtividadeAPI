@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,9 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Exemplo de como criar uma tabela no banco de dados usando o orm prisma
-
-model tbl_teste {
-  id Int @id @default(autoincrement())
-  nome String
+model tbl_atores {
+  id               Int       @id @default(autoincrement())
+  nome             String    @db.VarChar(80)
+  data_nascimento  DateTime  @db.Date
+  foto             String    @db.VarChar(100)
+  data_falecimento DateTime? @db.Date
+  biografia        String?   @db.Text
 }

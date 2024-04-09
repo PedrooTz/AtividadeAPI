@@ -175,6 +175,28 @@ app.get('/v3/acmefilmes/atores', cors(), async function(request, response, next)
           response.status()
       }
   });
+
+  app.get('/v3/acmefilmes/atores/:id', cors(), async function(request, response, next){
+    // Recebe o id da requisição 
+    let idAtores = request.params.id;
+
+    // Solicita para a controller o ator filtrando pelo id
+    let dadosAtores = await controllerAtores.getListarAtoresById(idAtores);
+
+     response.status(dadosAtores.status_code);
+     response.json(dadosAtores);
+   
+});
+
+app.delete('/v3/acmefilmes/atores/:id', cors(), async function(request, response, next){
+
+    let idAtores = request.params.id
+
+    let resultDados = await controllerAtores.setDeleteAtor(idAtores);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+});
     
 
 app.listen(8080, function(){
