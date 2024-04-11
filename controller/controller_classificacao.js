@@ -1,7 +1,7 @@
 /********************************
  * Objetivo: Arquivo responsável pela interação entre o APP e a MODEL, que teremos todas
- * as tratativas e regra de negócio para o CRUD de Filmes
- * Data: 30/01/2024
+ * as tratativas e regra de negócio para o CRUD de Classificação
+ * Data: 10/04/2024
  * Autor: Pedro Pedraga
  * Versão: 1.0
  *******************************/
