@@ -70,10 +70,6 @@ const insertAtor =  async function(dadosAtores) {
         
     }
 }
-const updateAtor = async function(id){
-
-}
-
 const selectAllAtors = async function(){
 
       // Script sql para listar todos os registros
