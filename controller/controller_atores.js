@@ -48,7 +48,7 @@ const getListarAtores = async function(){
 }
 const getListarAtoresById = async function (id){
    
-        // Recebe o id do filme
+        // Recebe o id do ator
         let idAtores = id;
     
         // Variável para criar o json do atores

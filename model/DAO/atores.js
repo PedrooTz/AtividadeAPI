@@ -76,9 +76,9 @@ const selectAllAtors = async function(){
       let sql = 'select * from tbl_atores order by id desc';
 
       // $queryRawUnsafe(sql)  = Encaminha apenas a variável
-      // $queryRaw('select * from tbl_filme) = Encaminha o script do banco 
+      // $queryRaw('select * from tbl_atores) = Encaminha o script do banco 
   
-      // Executa o script no banco de dados e recebe o retorno dos dados da variavel rsFilmes
+      // Executa o script no banco de dados e recebe o retorno dos dados da variavel rsAtores
       let rsAtores = await prisma.$queryRawUnsafe(sql)
        // Para usar await a função necessita ser async(async function)
   
@@ -91,7 +91,7 @@ const selectAllAtors = async function(){
 }
 const selectAtorsById = async function(id){
     try {
-        // Realiza a busca do filme pelo ID
+        // Realiza a busca do ator pelo ID
         let sql = `select * from tbl_atores where id = ${id}`;
     
         // Executa no banco de dados o script sql
