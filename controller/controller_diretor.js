@@ -40,3 +40,7 @@ const getListarDiretores = async function(){
     }
     }
 }
+
+module.exports = {
+    getListarDiretores
+}
