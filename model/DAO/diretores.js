@@ -31,7 +31,38 @@ const selectAllDirectors = async function(){
         return false
 
     }
+ const selectDirectorById  = async function(){
+    
+    try {
+        // Script para selecionar determinado diretor pelo seu ID
+    let sql = `select * from tbl_diretores where id  = ${id}`;
+
+    let rsDiretores = await prisma.$queryRawUnsafe(sql);
+    
+    return rsDiretores;
+
+} catch (error) {
+    return false;
+
+    }
+}
+
+const deleteDirectorById = async function(id){
+    try {
+        // Script para deletar determinado diretor pelo seu di
+        let sql = `delete from tbl_diretores where id = ${id}`
+
+        let rsDiretores = await prisma.$queryRawUnsafe(sql);
+        return rsDiretores;
+        
+    } catch (error) {
+        return false
+        
+    }
+}
 
 module.exports = {
-    selectAllDirectors
+    selectAllDirectors,
+    selectDirectorById,
+    deleteDirectorById
 }
