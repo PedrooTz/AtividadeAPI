@@ -297,7 +297,7 @@ app.post('/v3/acmefilmes/genero', cors(), bodyParserJSON, async function(request
    response.json(resultDados);
 })
 
-app.put('/v3/acmefilmes/generos/:id', cors(), async function(request,response, next){
+app.put('/v3/acmefilmes/generos/:id', cors(), bodyParserJSON, async function(request,response, next){
     let idGeneros = request.params.id
     let contentType = request.headers['content-type']
     let dadosBody = request.body
@@ -305,8 +305,8 @@ app.put('/v3/acmefilmes/generos/:id', cors(), async function(request,response, n
     let dadosGenero = await controllerGenero.setUpdateGenero(idGeneros, contentType, dadosBody);
 
     response.status(dadosGenero.status_code);
-    response.json(dadosGenero)
-})
+    response.json(dadosGenero);
+});
 
 
 
