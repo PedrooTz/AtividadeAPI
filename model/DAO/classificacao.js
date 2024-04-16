@@ -26,7 +26,7 @@ const selectAllClassfications = async function(){
 
     // Tratamento de erro para retornar dados ou retornar false
      if(rsClassficacao.length > 0)
-     return rsAtores;
+     return rsClassficacao;
      else
         return false
 

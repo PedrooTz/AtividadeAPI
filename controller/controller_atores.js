@@ -13,7 +13,6 @@ const message = require('../modulo/config.js')
 const atoresDAO = require('../model/DAO/atores.js');
 
 
-
 const getListarAtores = async function(){
     
     let listaAtores;
@@ -110,7 +109,7 @@ const setDeleteAtor = async function(id){
     }
 }
 
-const setInserirNovoAtor = async function(dadosAtores, contentType){
+const setInserirNovoAtor = async (dadosAtores, contentType) => {
 
     try{
 
@@ -123,43 +122,40 @@ const setInserirNovoAtor = async function(dadosAtores, contentType){
     let resultDadosAtor = {}
 
     // Validação de campos obrigatórios e consistência de dados
-    if( dadosAtores.nome == ''               || dadosAtores.nome == undefined              || dadosAtores.nome.length > 80               ||
+    if( dadosAtores.nome == ''                       || dadosAtores.nome == undefined              || dadosAtores.nome.length > 150              ||
         dadosAtores.data_nascimento == ''            || dadosAtores.data_nascimento == undefined            || dadosAtores.data_nascimento.length > 10       || 
-        dadosAtores.foto == ''            || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 200             || 
-        dadosAtores.biografia == ''    || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000   
+        dadosAtores.foto == ''                       || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 65000           || 
+        dadosAtores.biografia == ''                  || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000   
         
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
      }else{
         // Variável para validar se poderemos chamar o DAO para inserir os dados
-        let dadosValidated = false;
-
+       
         // Validação de digitação para a data de relançamento que não é campo obrigatório
         if( dadosAtores.data_falecimento != null &&
             dadosAtores.data_falecimento != undefined && 
-            dadosAtores.data_falecimento != ""
+            dadosAtores.data_falecimento != '' &&
+            dadosAtores.data_falecimento.length > 10
         ){
-            if( dadosFilme.data_falecimento.length != 10 )
+         
             return message.ERROR_REQUIRED_FIELDS
-            else
-            dadosValidated = true // Se a data estiver com exatos 10 caracteres
-        }else{
-            dadosValidated= true // Se a data não existir nos dados
+
         }
         // Validação para verificar se podemos encaminhar os dados para o DAO
-        if(dadosValidated){
+      
 
-        
         // Encaminha os dados para o DAO, inserir no Banco de Dados
         let novoAtor = await atoresDAO.insertAtor(dadosAtores);
 
+        let idSelect = await atoresDAO.selectIdAtor();
         
         // Validação de inserção de dados no banco de dados 
         if(novoAtor){
 
-            let idSelect = await atoresDAO.selectAtorsById();
-
+           
             dadosAtores.id = Number (idSelect[0].id)
+          
             
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosAtor.status = message.SUCESS_CREATED_ITEM.status;
@@ -170,9 +166,8 @@ const setInserirNovoAtor = async function(dadosAtores, contentType){
             return resultDadosAtor; // 201
         } else{
             return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
-            }
-
-
+            
+    
          }
        }
     }else{

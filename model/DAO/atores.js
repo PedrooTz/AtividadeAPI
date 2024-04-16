@@ -66,9 +66,86 @@ const insertAtor =  async function(dadosAtores) {
             return false;
 
     } catch (error) {
+
         return false;
         
     }
+}
+
+const updateAtor =  async function(dadosAtores) {
+    
+    try {
+
+     let sql;
+        if( dadosAtores.datafalecimento == null || 
+            dadosAtores.datafalecimento == ''   ||
+            dadosAtores.datafalecimento == undefined){
+             // Script SQL para inserir no banco de dados
+            sql = `insert into tbl_atores set nome (
+                nome,
+                data_nascimento,
+                foto,
+                data_falecimento,
+                biografia,
+            ) values (
+                '${dadosAtores.nome}',
+                '${dadosAtores.data_nascimento}',
+                '${dadosAtores.foto}',
+                 null,
+                '${dadosAtores.biografia}',
+          
+            )`;
+
+        }else{
+             // Script SQL para inserir no banco de dados
+            sql = `insert into tbl_atores set nome (
+                nome,
+                data_nascimento,
+                foto,
+                data_falecimento,
+                biografia,
+        ) values (
+            '${dadosAtores.nome}',
+            '${dadosAtores.data_nascimento}',
+            '${dadosAtores.foto}',
+            '${dadosAtores.data_falecimento}',
+            '${dadosAtores.biografia}',
+         
+        )`;
+        }
+       
+
+        // Executa o script SQL no banco de dados | Devemos usar execute e não query!
+        // Execute deve ser utilizado para insert, update e delete, onde o banco não devolve dados
+        let result = await prisma.$executeRawUnsafe(sql);
+
+        // Validação para verificar se o insert funcionou no banco de dados
+        if(result )
+            return true;
+        else
+            return false;
+
+    } catch (error) {
+
+        return false;
+        
+    }
+}
+
+
+
+const selectIdAtor = async function() {
+
+    try {
+
+    let sql = `select CAST(last_insert_id() as DECIMAL) as id from tbl_atores limit 1`;
+
+    let atorId = await prisma.$queryRawUnsafe(sql)
+     return atorId
+    } catch (error) {
+        return false
+        
+    }   
 }
 const selectAllAtors = async function(){
 
@@ -121,6 +198,8 @@ module.exports = {
     selectAllAtors, 
     selectAtorsById,
     insertAtor,
-    delectAtorsById
+    delectAtorsById,
+    selectIdAtor,
+    updateAtor
 }
 

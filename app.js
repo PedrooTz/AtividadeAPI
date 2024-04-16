@@ -39,6 +39,8 @@ const bodyParserJSON = bodyParser.json();
 
     const controllerAtores = require('./controller/controller_atores.js')
 
+    const controllerClassificacao = require('./controller/controller_classificacao.js')
+
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
@@ -197,6 +199,44 @@ app.delete('/v3/acmefilmes/atores/:id', cors(), async function(request, response
     response.status(resultDados.status_code);
     response.json(resultDados);
 });
+
+app.post('/v3/acmefilmes/ator', cors(), bodyParserJSON, async function(request, response, next){
+
+    // Recebe o content-type da requisição (API deve receber application/json )
+   let contentType = request.headers['content-type'];
+
+   // Recebe os dados encaminhados na requisição do body (JSON)
+   let dadosBody = request.body;
+
+   
+   // Encaminha os dados da requisição para a controller enviar para o banco de dados
+   let resultDados = await controllerAtores.setInserirNovoAtor(dadosBody, contentType);
+
+   response.status(resultDados.status_code);
+   response.json(resultDados);
+})
+
+
+// ***************************************************************************************************************************************** //
+// ************************************************************ CRUD DAS CLASSIFICAÇÔES **************************************************** //
+// ***************************************************************************************************************************************** //
+
+
+app.get('/v3/acmefilmes/classficacao', cors(), async function(request, response, next){
+
+    // Chama a função para retornar os dados da classificacao
+    let dadosClassificacao = await controllerClassificacao.getListarClassficacao();
+
+    // Validação para verificar se existem dados
+    if(dadosClassificacao){
+        response.json(dadosClassificacao)
+        response.status(200);
+    }else{
+        response.json({message: 'Nenhum registro encontrado'})
+        response.status()
+    }
+});
+
     
 
 app.listen(8080, function(){
