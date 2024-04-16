@@ -271,6 +271,43 @@ app.get('/v3/acmefilmes/generos', cors(), async function(request, response, next
    
 });
 
+app.delete('/v3/acmefilmes/generos/:id', cors(), async function(request, response, next){
+
+    let idGeneros = request.params.id
+
+    let resultDados = await controllerGenero.setDeleteGenero(idGeneros);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+});
+
+app.post('/v3/acmefilmes/genero', cors(), bodyParserJSON, async function(request, response, next){
+
+    // Recebe o content-type da requisição (API deve receber application/json )
+   let contentType = request.headers['content-type'];
+
+   // Recebe os dados encaminhados na requisição do body (JSON)
+   let dadosBody = request.body;
+
+   
+   // Encaminha os dados da requisição para a controller enviar para o banco de dados
+   let resultDados = await controllerGenero.setInserirNovoGenero(dadosBody, contentType);
+
+   response.status(resultDados.status_code);
+   response.json(resultDados);
+})
+
+app.put('/v3/acmefilmes/generos/:id', cors(), async function(request,response, next){
+    let idGeneros = request.params.id
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let dadosGenero = await controllerGenero.setUpdateGenero(idGeneros, contentType, dadosBody);
+
+    response.status(dadosGenero.status_code);
+    response.json(dadosGenero)
+})
+
 
 
 

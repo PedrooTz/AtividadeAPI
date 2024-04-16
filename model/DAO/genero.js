@@ -60,10 +60,75 @@ const deleteGeneroById = async function(id){
             
         }
     }
+    const insertGenero =  async function(dadosGenero) {
+    
+        try {
+    
+         let sql = `insert into tbl_genero(nome) values ('${dadosGenero.nome}')`
+                
+            // Executa o script SQL no banco de dados | Devemos usar execute e não query!
+            // Execute deve ser utilizado para insert, update e delete, onde o banco não devolve dados
+            let result = await prisma.$executeRawUnsafe(sql);
+    
+            // Validação para verificar se o insert funcionou no banco de dados
+            if(result )
+                return true;
+            else
+                return false;
+    
+        } catch (error) {
+    
+            return false;
+            
+        }
+    }
+
+    const selectIdGenero = async function() {
+
+        try {
+    
+        let sql = `select CAST(last_insert_id() as DECIMAL) as id from tbl_genero limit 1`;
+    
+        let atorId = await prisma.$queryRawUnsafe(sql)
+         return atorId
+        } catch (error) {
+            return false
+            
+        }   
+    }
+  
+    const updateGenero =  async function(dadosGenero) {
+    
+        try {
+    
+            let sql =  `update tbl_genero set nome = '${dadosGenero.nome}' where id = ${id}`
+               // Executa o script SQL no banco de dados | Devemos usar execute e não query!
+               // Execute deve ser utilizado para insert, update e delete, onde o banco não devolve dados
+               let result = await prisma.$executeRawUnsafe(sql);
+       
+               // Validação para verificar se o insert funcionou no banco de dados
+               if(result )
+                   return true;
+               else
+                   return false;
+       
+           } catch (error) {
+       
+               return false;
+               
+           }
+    }
+    
+    
+       
 
 module.exports = {
     selectAllGeneros,
     selectGeneroById,
-    deleteGeneroById
+    deleteGeneroById,
+    insertGenero,
+    selectIdGenero,
+    updateGenero
+
 }
 

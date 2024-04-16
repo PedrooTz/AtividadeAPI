@@ -221,7 +221,7 @@ const setUpdateAtor = async function(){
             
                     
                     // Encaminha os dados para o DAO, inserir no Banco de Dados
-                    let novoAtor = await atoresDAO.insertFilme(dadosAtores);
+                    let novoAtor = await atoresDAO.insertAtor(dadosAtores);
             
                     
                     // Validação de inserção de dados no banco de dados 

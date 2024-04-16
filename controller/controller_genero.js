@@ -81,7 +81,156 @@ const getListarGenerosById = async function (id){
 
 }
 
+const setInserirNovoGenero = async (dadosGenero, contentType) => {
+
+    try{
+
+   
+    if(String(contentType).toLowerCase() == 'application/json'){
+
+    
+
+    // Cria a variável json
+    let resultDadosGenero = {}
+
+    // Validação de campos obrigatórios e consistência de dados
+    if( dadosGenero.nome == ''                       || dadosGenero.nome == undefined              || dadosGenero.nome.length > 150
+    ){
+        return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
+     }else{
+        
+        // Encaminha os dados para o DAO, inserir no Banco de Dados
+        let novoGenero = await generoDAO.insertGenero(dadosGenero);
+
+        let idSelect = await generoDAO.selectIdGenero();
+
+        dadosGenero.id = Number (idSelect[0].id)
+        
+        // Validação de inserção de dados no banco de dados 
+        if(novoGenero){
+
+           
+            // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
+            resultDadosGenero.status = message.SUCESS_CREATED_ITEM.status;
+            resultDadosGenero.status_code = message.SUCESS_CREATED_ITEM.status_code;
+            resultDadosGenero.message = message.SUCESS_CREATED_ITEM.message;
+            resultDadosGenero.genero = dadosGenero;
+
+            return resultDadosGenero; // 201
+        } else{
+            return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
+            
+    
+         }
+       }
+    }else{
+        return message.ERROR_CONTENT_TYPE // 415 Erro no content type
+    }
+}catch(error){
+    return message.ERROR_INTERNAL_SERVER // 500 Erro na camada de aplicação
+}
+     
+}
+
+const setDeleteGenero = async function(id){
+    try {
+        
+        let idGeneros = id;
+
+        if(idGeneros == '' || idGeneros == undefined || isNaN(idGeneros)){
+            return message.ERROR_INVALID_ID;
+        }else{
+            let chamarConst = await generoDAO.selectGeneroById(idGeneros)
+
+            if(chamarConst.length > 0){
+                let dadosGenero = await generoDAO.selectGeneroById(id)
+
+                if(dadosGenero){
+                    return message.SUCESS_DELETED_ITEM
+                }else {
+                    return message.ERROR_INTERNAL_SERVER_DB
+                }
+            
+        }else {
+            return message.ERROR_NOT_FOUND
+        }
+    }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+    }
+}
+
+const setUpdateGenero = async function(dadosGenero, contentType, idGeneros){
+    try {
+        
+        let idGeneros = id; 
+        if (idGeneros  == '' || idGeneros == undefined || isNaN(idGeneros)){
+            return message.ERROR_INVALID_ID;
+        }else{
+
+            if(String(contentType).toLowerCase() == 'application/json'){
+
+    
+                // Cria a variável json
+                let resultDadosGenero = {}
+            
+                // Validação de campos obrigatórios e consistência de dados
+                if( dadosGenero.nome == ''               || dadosGenero.nome == undefined              || dadosGenero.nome.length > 80           
+             
+                
+            ){
+                    return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
+                 }else{
+                    // Variável para validar se poderemos chamar o DAO para inserir os dados
+                    let dadosValidated = false;
+        
+                    if(dadosValidated){
+            
+                    // Encaminha os dados para o DAO, inserir no Banco de Dados
+                    let novoGenero = await generoDAO.insertGenero(dadosGenero);
+                    
+            
+                    let idSelect = await generoDAO.selectGeneroById();
+            
+                    dadosGenero.id = Number (idSelect[0].id)
+
+                  
+
+                    // Validação de inserção de dados no banco de dados 
+                    if(novoGenero){
+            
+                       
+                        // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
+                        resultDadosGenero.status = message.SUCESS_CREATED_ITEM.status;
+                        resultDadosGenero.status_code = message.SUCESS_CREATED_ITEM.status_code;
+                        resultDadosGenero.message = message.SUCESS_CREATED_ITEM.message;
+                        resultDadosGenero.genero = dadosGenero;
+            
+                        return resultDadosGenero; // 201
+                    } else{
+                        return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
+                        }
+            
+            
+                     }
+                   }
+                }else{
+                    return message.ERROR_CONTENT_TYPE // 415 Erro no content type
+                }
+
+
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+        
+    }
+
+}
+
 module.exports = {
     getListarGenero,
-    getListarGenerosById
+    getListarGenerosById,
+    setInserirNovoGenero,
+    setDeleteGenero,
+    setUpdateGenero
 }
