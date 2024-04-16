@@ -41,6 +41,8 @@ const bodyParserJSON = bodyParser.json();
 
     const controllerClassificacao = require('./controller/controller_classificacao.js')
 
+    const controllerGenero = require('./controller/controller_genero.js')
+
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
@@ -236,6 +238,41 @@ app.get('/v3/acmefilmes/classficacao', cors(), async function(request, response,
         response.status()
     }
 });
+
+
+// ***************************************************************************************************************************************** //
+// ************************************************ CRUD DOS GENEROS  ********************************************************************** //
+// ***************************************************************************************************************************************** //
+
+app.get('/v3/acmefilmes/generos', cors(), async function(request, response, next){
+
+      // Chama a função para retornar os dados do genero
+      let dadosGenero = await controllerGenero.getListarGenero();
+
+      // Validação para verificar se existem dados
+      if(dadosGenero){
+          response.json(dadosGenero)
+          response.status(200);
+      }else{
+          response.json({message: 'Nenhum registro encontrado'})
+          response.status()
+      }
+  });
+
+  app.get('/v3/acmefilmes/generos/:id', cors(), async function(request, response, next){
+    // Recebe o id da requisição 
+    let idGeneros = request.params.id;
+
+    // Solicita para a controller o ator filtrando pelo id
+    let dadosGenero = await controllerGenero.getListarGenerosById(idGeneros);
+
+     response.status(dadosGenero.status_code);
+     response.json(dadosGenero);
+   
+});
+
+
+
 
     
 

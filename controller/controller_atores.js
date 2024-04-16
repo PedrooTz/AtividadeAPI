@@ -149,14 +149,13 @@ const setInserirNovoAtor = async (dadosAtores, contentType) => {
         let novoAtor = await atoresDAO.insertAtor(dadosAtores);
 
         let idSelect = await atoresDAO.selectIdAtor();
+
+        dadosAtores.id = Number (idSelect[0].id)
         
         // Validação de inserção de dados no banco de dados 
         if(novoAtor){
 
            
-            dadosAtores.id = Number (idSelect[0].id)
-          
-            
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosAtor.status = message.SUCESS_CREATED_ITEM.status;
             resultDadosAtor.status_code = message.SUCESS_CREATED_ITEM.status_code;
