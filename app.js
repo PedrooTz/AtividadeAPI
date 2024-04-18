@@ -224,7 +224,7 @@ app.post('/v3/acmefilmes/ator', cors(), bodyParserJSON, async function(request, 
 // ***************************************************************************************************************************************** //
 
 
-app.get('/v3/acmefilmes/classficacao', cors(), async function(request, response, next){
+app.get('/v3/acmefilmes/classificacao', cors(), async function(request, response, next){
 
     // Chama a função para retornar os dados da classificacao
     let dadosClassificacao = await controllerClassificacao.getListarClassficacao();
@@ -238,6 +238,64 @@ app.get('/v3/acmefilmes/classficacao', cors(), async function(request, response,
         response.status()
     }
 });
+
+app.get('/v3/acmefilmes/classificacao/:id', cors(), async function(request, response, next){
+    // Recebe o id da requisição 
+    let idClassificacao = request.params.id;
+
+    // Solicita para a controller o ator filtrando pelo id
+    let dadosClassificacao = await controllerClassificacao.getListarClassficacaoById(idClassificacao);
+
+     response.status(dadosClassificacao.status_code);
+     response.json(dadosClassificacao);
+   
+});
+
+
+app.delete('/v3/acmefilmes/classificacao/:id', cors(), async function(request, response, next){
+
+    let idClassificacao = request.params.id
+
+    let resultDados = await controllerClassificacao.setDeleteClassficacao(idClassificacao);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+});
+
+
+app.post('/v3/acmefilmes/insertclassificacao', cors(), bodyParserJSON, async function(request, response, next){
+
+    // Recebe o content-type da requisição (API deve receber application/json )
+   let contentType = request.headers['content-type'];
+
+   // Recebe os dados encaminhados na requisição do body (JSON)
+   let dadosBody = request.body;
+
+   
+   // Encaminha os dados da requisição para a controller enviar para o banco de dados
+   let resultDados = await controllerClassificacao.setInserirNovaClassificacao(dadosBody, contentType);
+
+   response.status(resultDados.status_code);
+   response.json(resultDados);
+});
+
+app.put('/v3/acmefilmes/classificacao/:id', cors(), bodyParserJSON, async function(request,response, next){
+    let idClassificacao = request.params.id
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let dadosClassificacao = await controllerClassificacao.setUpdateClassificacao(idClassificacao, contentType, dadosBody);
+
+    response.status(dadosClassificacao.status_code);
+    response.json(dadosClassificacao);
+});
+
+
+
+
+
+
+
 
 
 // ***************************************************************************************************************************************** //

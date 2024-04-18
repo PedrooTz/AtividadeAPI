@@ -101,7 +101,7 @@ const deleteGeneroById = async function(id){
     
  
     try {
-        let sql = `update tbl_genero set nome = '${dadosGenero.nome}' where id = ${idGenero}`   
+        let sql = `update tbl_genero set nome = '${dadosGenero.nome}' where id = ${idGenero.id}`   
         let resultStatus = await prisma.$executeRawUnsafe(sql)
         if(resultStatus)
             return true

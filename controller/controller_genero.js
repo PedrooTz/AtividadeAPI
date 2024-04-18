@@ -170,6 +170,8 @@ const setUpdateGenero = async function(dadosGenero, contentType, idGenero){
             console.log(idGenero)
         
             if( 
+
+                
                 idGenero == ''         || idGenero == undefined          ||
                 dadosGenero.nome == '' || dadosGenero.nome == undefined  || dadosGenero.nome.length > 100
              

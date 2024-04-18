@@ -69,7 +69,7 @@ const getListarClassficacaoById = async function (id){
             classficacaoJSON.atores = dadosClassificacao;
             classficacaoJSON.status_code = 200
 
-            return atoresJSON; // 200
+            return classficacaoJSON; // 200
         }else{
             return message.ERROR_NOT_FOUND; //404
         }
@@ -110,9 +110,118 @@ const setDeleteClassficacao = async function(id){
     }
 }
 
+const setInserirNovaClassificacao = async (dadosClassificacao, contentType) => {
+
+    try{
+
+   
+    if(String(contentType).toLowerCase() == 'application/json'){
+
+    
+
+    // Cria a variável json
+    let resultdadosClassificacao = {}
+
+    // Validação de campos obrigatórios e consistência de dados
+    if( dadosClassificacao.categoria == ''                       || dadosClassificacao.categoria == undefined              || dadosClassificacao.categoria.length > 150 ||
+        dadosClassificacao.descricao == ''            || dadosClassificacao.descricao == undefined            || dadosClassificacao.descricao.length > 150       || 
+        dadosClassificacao.simbolo == ''                       || dadosClassificacao.simbolo == undefined           ||dadosClassificacao.simbolo .length > 65000         
+      
+        
+    ){
+        return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
+     }else{
+        
+        // Encaminha os dados para o DAO, inserir no Banco de Dados
+        let novaClassficacao = await classificacaoDAO.insertClassificacao(dadosClassificacao);
+
+        let idSelect = await classificacaoDAO.selectIdClassificacao();
+
+        dadosClassificacao.id = Number (idSelect[0].id)
+        
+        // Validação de inserção de dados no banco de dados 
+        if(novaClassficacao){
+
+           
+            // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
+            resultdadosClassificacao.status = message.SUCESS_CREATED_ITEM.status;
+            resultdadosClassificacao.status_code = message.SUCESS_CREATED_ITEM.status_code;
+            resultdadosClassificacao.message = message.SUCESS_CREATED_ITEM.message;
+            resultdadosClassificacao.classificacoes = dadosClassificacao;
+
+            return resultdadosClassificacao; // 201
+        } else{
+            return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
+            
+    
+         }
+       }
+    }else{
+        return message.ERROR_CONTENT_TYPE // 415 Erro no content type
+    }
+}catch(error){
+    console.log(error)
+    return message.ERROR_INTERNAL_SERVER // 500 Erro na camada de aplicação
+}
+     
+}
+const setUpdateClassificacao = async function(dadosClassificacao, contentType, idClassificacao){
+    try {
+        
+        if(String(contentType).toLowerCase() == 'application/json'){
+
+            let resultdadosClassificacao = {}
+
+            console.log(idClassificacao)
+        
+            if( 
+                
+
+                
+                idClassificacao.id == ''         || idClassificacao.id == undefined          ||
+                dadosClassificacao.categoria == '' || dadosClassificacao.categoria == undefined  || dadosClassificacao.categoria.length > 100   ||
+                dadosClassificacao.descricao == ''         || dadosClassificacao.descricao == undefined          || dadosClassificacao.descricao.length > 6500   ||
+                dadosClassificacao.simbolo == ''   || dadosClassificacao.simbolo == undefined   || dadosClassificacao.length > 65000
+             
+            ){                
+                return message.ERROR_REQUIRED_FIELDS // 400
+                
+            }else{
+                
+                let classificacaoAtualizado = await classificacaoDAO.setUpdateClassificacao(dadosClassificacao, idClassificacao)
+                                        
+                dadosClassificacao.id = idClassificacao
+
+                if(classificacaoAtualizado){
+                    resultdadosClassificacao.status = message.UPDATED_ITEM.status
+                    resultdadosClassificacao.status_code = message.UPDATED_ITEM.status_code
+                    resultdadosClassificacao.message = message.UPDATED_ITEM.message
+                    resultdadosClassificacao.classificacoes = dadosClassificacao
+                    return resultdadosClassificacao
+                }else {
+
+                    return message.ERROR_INTERNAL_SERVER_DB // 500
+
+                }
+                
+            }
+    
+        }else{
+            return message.ERROR_CONTENT_TYPE // 415
+        }
+
+    } catch (error) {
+        message.ERROR_INTERNAL_SERVER // 500
+    }
+
+}
+
+
 
 module.exports = {
     getListarClassficacao,
     getListarClassficacaoById,
-    setDeleteClassficacao
+    setDeleteClassficacao,
+    setInserirNovaClassificacao,
+    setUpdateClassificacao
 }
