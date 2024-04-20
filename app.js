@@ -43,6 +43,8 @@ const bodyParserJSON = bodyParser.json();
 
     const controllerGenero = require('./controller/controller_genero.js')
 
+    const controllerDiretor = require('./controller/controller_diretor.js')
+
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
@@ -292,12 +294,6 @@ app.put('/v3/acmefilmes/classificacao/:id', cors(), bodyParserJSON, async functi
 
 
 
-
-
-
-
-
-
 // ***************************************************************************************************************************************** //
 // ************************************************ CRUD DOS GENEROS  ********************************************************************** //
 // ***************************************************************************************************************************************** //
@@ -368,6 +364,39 @@ app.put('/v3/acmefilmes/generos/:id', cors(), bodyParserJSON, async function(req
 
 
 
+
+// ***************************************************************************************************************************************** //
+// ************************************************ CRUD DOS DIRETORES  ******************************************************************** //
+// ***************************************************************************************************************************************** //
+
+
+
+app.get('/v3/acmefilmes/diretores', cors(), async function(request, response, next){
+
+    // Chama a função para retornar os dados do genero
+    let dadosDiretor = await controllerDiretor.getListarDiretores();
+
+    // Validação para verificar se existem dados
+    if(dadosDiretor){
+        response.json(dadosDiretor)
+        response.status(200);
+    }else{
+        response.json({message: 'Nenhum registro encontrado'})
+        response.status()
+    }
+});
+
+app.get('/v3/acmefilmes/diretores/:id', cors(), async function(request, response, next){
+  // Recebe o id da requisição 
+  let idDiretor = request.params.id;
+
+  // Solicita para a controller o ator filtrando pelo id
+  let dadosDiretor = await controllerDiretor.getListarDiretorById(idDiretor);
+
+   response.status(dadosDiretor.status_code);
+   response.json(dadosDiretor);
+ 
+});
 
     
 

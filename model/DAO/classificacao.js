@@ -99,30 +99,33 @@ const insertClassificacao =  async function(dadosClassificacao) {
         }
     }
 
-    const updateClassificacao =  async function(dadosClassificacao, idClassificacao) {
+    const updateClassificacao =  async function(dadosClassificacao, id) {
     
-        try {
-    
+        try{
             let sql;
-             sql = `update tbl_classificacao set categoria = '${dadosClassificacao.categoria}',  descricao = '${dadosAtores.descricao}' where id = ${idClassificacao.id}`
-                   
-        
-               // Executa o script SQL no banco de dados | Devemos usar execute e não query!
-               // Execute deve ser utilizado para insert, update e delete, onde o banco não devolve dados
-               let result = await prisma.$executeRawUnsafe(sql);
-       
-               // Validação para verificar se o insert funcionou no banco de dados
-               if(result )
-                   return true;
-               else
-                   return false;
-       
-           } catch (error) {
-       
-               return false;
-               
-           }
+    
+            
+                sql = `UPDATE tbl_classificacao SET categoria = '${dadosClassificacao.categoria}',
+                    descricao = '${dadosClassificacao.descricao}',
+                    simbolo = '${dadosClassificao.simbolo}',
+                    where id = ${id};`
+            
+                    console.log(sql);
+    
+            let result = await prisma.$executeRawUnsafe(sql);
+            
+    
+            if (result)
+                return result
+            else
+                return false;
+            
+        } catch (error) {
+            return false
+    
+        }
     }
+    
     
     
     

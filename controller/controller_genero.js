@@ -204,7 +204,7 @@ const setUpdateGenero = async function(dadosGenero, contentType, idGenero){
 
     } catch (error) {
         message.ERROR_INTERNAL_SERVER // 500
-    }
+    }   
 
 }
 

@@ -31,7 +31,7 @@ const selectAllDirectors = async function(){
         return false
 
     }
- const selectDirectorById  = async function(){
+ const selectDirectorById  = async function(id){
     
     try {
         // Script para selecionar determinado diretor pelo seu ID

@@ -136,19 +136,25 @@ insert into tbl_classificacao(
 create table tbl_diretores (
 id int not null auto_increment primary key,
 nome varchar(80) not null,
-filmes_diretor varchar(90)
+data_nascimento date not null,
+foto varchar(255) not null,
+data_falecimento date,
+biografia text
 );
+drop table tbl_diretores;
 
 insert into tbl_diretores (
                             nome,
-                            filmes_diretor
+                            data_nascimento,
+                            foto,
+                            data_falecimento,
+                            biografia
                             )values (
                             'Justin Lin',
-                            'Velozes e Furiosos 6'
-                            ),
-                            (
-                            'Francis Lawrence',
-                            'Eu sou a Lenda'
+                            '1971-10-11',
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQc3hSRMesfeyyrkaIJkg1dmoWcUF00bjUbF3Cv7mfIg&s',
+                            null,
+                            'Justin Lin é um diretor, roteirista e produtor de cinema taiwanês-americano, conhecido por dirigir Better Luck Tomorrow e cinco filmes da série The Fast and the Furious.Nasceu em Taipei e cresceu em Orange County, Califórnia. Frequentou a Universidade da Califórnia, em San Diego, durante dois anos'
                             );
                            
 create table tbl_classificacao (
