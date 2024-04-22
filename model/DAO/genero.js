@@ -97,7 +97,7 @@ const deleteGeneroById = async function(id){
         }   
     }
   
-    const updateGenero =  async function(dadosGenero, idGenero) {
+    const updateGenero =  async function(idGenero, dadosGenero) {
     
  
     try {

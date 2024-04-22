@@ -160,7 +160,7 @@ const setDeleteGenero = async function(id){
     }
 }
 
-const setUpdateGenero = async function(dadosGenero, contentType, idGenero){
+const setUpdateGenero = async function(idGenero, contentType, dadosGenero){
     try {
         
         if(String(contentType).toLowerCase() == 'application/json'){

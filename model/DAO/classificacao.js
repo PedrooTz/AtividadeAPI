@@ -99,7 +99,7 @@ const insertClassificacao =  async function(dadosClassificacao) {
         }
     }
 
-    const updateClassificacao =  async function(dadosClassificacao, id) {
+    const updateClassificacao =  async function(id, dadosClassificacao) {
     
         try{
             let sql;

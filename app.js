@@ -281,8 +281,8 @@ app.post('/v3/acmefilmes/insertclassificacao', cors(), bodyParserJSON, async fun
    response.json(resultDados);
 });
 
-app.put('/v3/acmefilmes/classificacao/:id', cors(), bodyParserJSON, async function(request,response, next){
-    let idClassificacao = request.params.id
+app.put('/v3/acmefilmes/updateclassificacao/:id', cors(), bodyParserJSON, async function(request,response, next){
+    let idClassificacao = request.params.id;
     let contentType = request.headers['content-type']
     let dadosBody = request.body
 
