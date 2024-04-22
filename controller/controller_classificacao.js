@@ -167,57 +167,53 @@ const setInserirNovaClassificacao = async (dadosClassificacao, contentType) => {
 }
 const setUpdateClassificacao = async function(dadosClassificacao, contentType, id){
     try{
-        
-      
-        let idClassificacao = id;
-        if(idClassificacao == '' || idClassificacao == undefined || isNaN (idClassificacao)){
-            return message.ERROR_INVALID_ID            
-        }else{
-            
-           
+
         if(String(contentType).toLowerCase() == 'application/json'){
-            let updateClassificacaoJson = {};
-            
-            if(dadosClassificacao.categoria == ''    || dadosClassificacao.categoria == undefined       ||  dadosClassificacao.categoria == null               || dadosClassificacao.categoria.length > 150 ||
-       dadosClassificacao.descricao == ''  ||   dadosClassificacao.descricao == undefined  || dadosClassificacao.descricao == null   || dadosClassificacao.descricao > 255 ||
-       dadosClassificacao.simbolo == '' ||  dadosClassificacao.simbolo == undefined || dadosClassificacao.simbolo == null  || dadosClassificacao.simbolo > 65      
-    ){
-            return message.ERROR_REQUIRED_FIELDS
-        } else {
 
-            let validateStatus = true;
+            let statusValidate = false;
+            let classificacaoAtualizadoJson = {}
 
-            let classificacaoById = await classificacaoDAO.selectClassficationsById(id)
 
-            if(classificacaoById.length > 0){
-                if (validateStatus){
-                    let uptadeClassificacao = await classificacaoDAO.updateClassificacao(id,dadosClassificacao);
-                    console.log(uptadeClassificacao);
-    
-                    if(uptadeClassificacao){
-                      
-                        updateClassificacaoJson.classificacao = dadosClassificacao
-                        updateClassificacaoJson.status = message.SUCESS_UPTADE_ITEM.status
-                        updateClassificacaoJson.status_code = message.SUCESS_UPTADE_ITEM.status_code
-                        updateClassificacaoJson.message = message.SUCESS_UPTADE_ITEM.message
-    
-                        return updateClassificacaoJson;
-                    } else {
-                         return message.ERROR_INTERNAL_SERVER_DB
-                    }
-                }
+            if(dadosClassificacao.categoria == ''                       || dadosClassificacao.categoria == undefined              || dadosClassificacao.categoria.length > 150 ||
+            dadosClassificacao.descricao == ''            || dadosClassificacao.descricao == undefined            || dadosClassificacao.descricao.length > 150       || 
+            dadosClassificacao.simbolo == ''                       || dadosClassificacao.simbolo == undefined           ||dadosClassificacao.simbolo .length > 65000         
+
+
+        ){
+                return message.ERROR_REQUIRED_FIELDS
             }else{
-                return message.ERROR_NOT_FOUND
+                statusValidate = true
             }
-        }
-        } else {
+            if(statusValidate){
+
+                let idClassificacao = id
+                let classificacaoAtualizado = await classificacaoDAO.updateClassificacao(idClassificacao, dadosClassificacao)
+
+                console.log(classificacaoAtualizado)
+
+       
+            
+                if(classificacaoAtualizado){
+
+                    classificacaoAtualizadoJson.status = message.SUCESS_UPDATED_ITEM.status,
+                    classificacaoAtualizadoJson.status_code = message.SUCESS_UPDATED_ITEM.status_code,
+                    classificacaoAtualizadoJson.message = message.SUCESS_UPDATED_ITEM.message,
+                    classificacaoAtualizadoJson.idClassificacaoAtualizado = idClassificacao,
+                    novoClassificacaoJson = dadosClassificacao
+
+                    return classificacaoAtualizadoJson
+                }else{
+                    return message.ERROR_INTERNAL_SERVER_DB
+                }
+            }
+        }else{
             return message.ERROR_CONTENT_TYPE
         }
-        }
-
-    } catch (error) {
+    }catch(error){
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
-    }
+
+}
 }
 
 

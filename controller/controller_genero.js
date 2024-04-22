@@ -185,9 +185,9 @@ const setUpdateGenero = async function(dadosGenero, contentType, idGenero){
                 dadosGenero.id = idGenero
 
                 if(generoAtualizado){
-                    resultDadosGenero.status = message.UPDATED_ITEM.status
-                    resultDadosGenero.status_code = message.UPDATED_ITEM.status_code
-                    resultDadosGenero.message = message.UPDATED_ITEM.message
+                    resultDadosGenero.status = message.SUCESS_UPDATED_ITEM.status
+                    resultDadosGenero.status_code = message.SUCESS_UPDATED_ITEM.status_code
+                    resultDadosGenero.message = message.SUCESS_UPDATED_ITEM.message
                     resultDadosGenero.genero = dadosGenero
                     return resultDadosGenero
                 }else {

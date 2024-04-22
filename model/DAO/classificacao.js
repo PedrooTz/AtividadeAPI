@@ -104,11 +104,10 @@ const insertClassificacao =  async function(dadosClassificacao) {
         try{
             let sql;
     
-            
                 sql = `UPDATE tbl_classificacao SET categoria = '${dadosClassificacao.categoria}',
                     descricao = '${dadosClassificacao.descricao}',
-                    simbolo = '${dadosClassificao.simbolo}',
-                    where id = ${id};`
+                    simbolo = '${dadosClassificacao.simbolo}'
+                    where id = ${id}`
             
                     console.log(sql);
     

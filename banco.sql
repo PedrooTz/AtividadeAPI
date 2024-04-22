@@ -115,24 +115,7 @@ insert into tbl_atores (
 				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música.'
 				);
 									   
-create table tbl_classificacao(
-id int not null auto_increment primary key,
-classificacao bigint not null,
-filmes_classificacao varchar(100) not null
-);
 
-insert into tbl_classificacao(
-                             classificacao,
-                            filmes_classificacao
-                            )values(
-                            '14',
-                            'Velozes e Furiosos 6'
-                            ),
-                            (
-                            '16',
-                            'Eu sou a Lenda'
-                            );
-                           
 create table tbl_diretores (
 id int not null auto_increment primary key,
 nome varchar(80) not null,
@@ -166,6 +149,8 @@ create table tbl_classificacao (
     unique key (id)
 );
 drop table tbl_classificacao;
+
+select * from tbl_classificacao;
 
 insert into tbl_classificacao ( categoria,
 								descricao,

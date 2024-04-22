@@ -26,6 +26,10 @@ const SUCESS_CREATED_ITEM = {status: true, status_code: 200, message:'Item inser
 
 const SUCESS_DELETED_ITEM = {status: true, status_code: 200, message:'Item deletado com sucesso!'}
 
+const SUCESS_UPDATED_ITEM = {status: true, status_code: 200, message:'Item atualizado com sucesso!'}
+
+
+
 
 
 module.exports = {
@@ -36,6 +40,7 @@ module.exports = {
     ERROR_REQUIRED_FIELDS,
     SUCESS_CREATED_ITEM,
     SUCESS_DELETED_ITEM,
-    ERROR_CONTENT_TYPE
+    ERROR_CONTENT_TYPE,
+    SUCESS_UPDATED_ITEM
   
 }
