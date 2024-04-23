@@ -20,9 +20,9 @@ const insertAtor =  async function(dadosAtores) {
         if( dadosAtores.datafalecimento == null || 
             dadosAtores.datafalecimento == ''   ||
             dadosAtores.datafalecimento == undefined){
-                sql = `insert into tbl_atores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosAtores.nome}', '${dadosAtores.data_nascimento}', '${dadosAtores.foto}', null, '${dadosAtores.biografia}')`
+                sql = `insert into tbl_atores(nome, data_nascimento, foto, data_falecimento, biografia, sexo_id, nacionalidade_id) values ('${dadosAtores.nome}', '${dadosAtores.data_nascimento}', '${dadosAtores.foto}', null, '${dadosAtores.biografia}', '${dadosAtores.sexo_id}', '${dadosAtores.nacionalidade_id}')`
             }else {
-                sql = `insert into tbl_atores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosAtores.nome}', '${dadosAtores.data_nascimento}', '${dadosAtores.foto}', '${dadosAtores.data_falecimento}', '${dadosAtores.biografia}')`
+                sql = `insert into tbl_atores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosAtores.nome}', '${dadosAtores.data_nascimento}', '${dadosAtores.foto}', '${dadosAtores.data_falecimento}', '${dadosAtores.biografia}', '${dadosAtores.sexo_id}', '${dadosAtores.nacionalidade_id}' )`
 
             }
         // Executa o script SQL no banco de dados | Devemos usar execute e não query!
@@ -42,7 +42,7 @@ const insertAtor =  async function(dadosAtores) {
     }
 }
 
-const updateAtor =  async function(dadosAtores) {
+const updateAtor =  async function(id, dadosAtores) {
     
     try {
 
@@ -50,9 +50,9 @@ const updateAtor =  async function(dadosAtores) {
            if( dadosAtores.datafalecimento == null || 
                dadosAtores.datafalecimento == ''   ||
                dadosAtores.datafalecimento == undefined){
-                   sql = `update tbl_atores set nome = '${dadosAtores.nome}',  data_nascimento = '${dadosAtores.data_nascimento}',  foto = '${dadosAtores.foto}',  data_falecimento = null,  biografia '${dadosAtores.biografia}' where id = ${atorId}`
+                   sql = `update tbl_atores set nome = '${dadosAtores.nome}',  data_nascimento = '${dadosAtores.data_nascimento}',  foto = '${dadosAtores.foto}',  data_falecimento = null,  biografia = '${dadosAtores.biografia}', sexo_id ='${dadosAtores.sexo_id}', nacionalidade_id ='${dadosAtores.nacionalidade_id} where id = ${id}`
                }else {
-                   sql = `update tbl_atores set nome = '${dadosAtores.nome}', data_nascimento =  '${dadosAtores.data_nascimento}', foto = '${dadosAtores.foto}', data_falecimento ='${dadosAtores.data_falecimento}',  biografia = '${dadosAtores.biografia}' where id = ${atorId}`
+                   sql = `update tbl_atores set nome = '${dadosAtores.nome}', data_nascimento =  '${dadosAtores.data_nascimento}', foto = '${dadosAtores.foto}', data_falecimento ='${dadosAtores.data_falecimento}',  biografia = '${dadosAtores.biografia}' where id = ${id}`
    
                }
            // Executa o script SQL no banco de dados | Devemos usar execute e não query!

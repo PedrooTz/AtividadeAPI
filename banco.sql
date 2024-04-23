@@ -21,57 +21,51 @@ senha varchar(100)
 create table tbl_filme (
 id int not null auto_increment primary key,
 nome varchar(80) not null,
-genero varchar(80) not null,
 sinopse text not null,
-atores text not null,
-classificacao bigint,
 duracao time not null,
-diretores text not null,
 data_lancamento date not null,
 data_relancamento date,
 foto_capa varchar(200) not null,
 valor_unitario float,
+tbl_classificacao_id int not null,
 unique index (id),
-unique key (id)
+unique key (id),
+
+FOREIGN KEY (tbl_classificacao_id) 
+REFERENCES tbl_classificacao (id)
 );
+
+drop table tbl_filme;
 
 
 insert into tbl_filme(
 					nome,
-					genero,sinopse,
-					atores,
-					classificacao,
+					sinopse,
 					duracao,
-					diretores,
 					data_lancamento,
 					data_relancamento,
 					foto_capa,
-					valor_unitario
+					valor_unitario,
+                    tbl_classificacao_id
 					)values (
 					'Velozes e Furiosos 6',
-					'Acao',
 					'Em Velozes e Furiosos 6, os heróis se espalham pelo mundo após o golpe de Dom (Vin Diesel) e Brian (Paul Walker) no Rio de Janeiro que deixou o grupo com US$100 milhões',
-					'Paul Walker: Brian Oconner, Tyrese Gibson: Roman Pearce, Ludacris: Tej',
-					'12',
 					'02:10:00',
-					'Justin Lin',
 					'2013-04-24',
 					null,
 					'https://br.web.img2.acsta.net/c_310_420/medias/nmedia/18/92/81/46/20528636.jpg',
-					'23.00'
+					'23.00',
+                    1
 					),
 					(
 					'Eu sou a Lenda',
-					'Ação e Terror',
 					'Um terrível vírus incurável, criado pelo homem, dizimou a população de Nova York. Robert Neville (Will Smith) é um cientista brilhante que, sem saber como, tornou-se imune ao vírus.',
-					'Will Smith: Tenente Coronel',
-					'16',
 					'01:40:00',
-					'Francis Lawrence',
 					'2008-01-18',
 					null,
 					'https://br.web.img3.acsta.net/c_310_420/medias/nmedia/18/91/08/87/20128900.jpg',
-					'50.00'
+					'50.00',
+                    1
 					);
 									   
 create table tbl_atores(
@@ -80,15 +74,23 @@ nome varchar(80) not null,
 data_nascimento date not null,
 foto varchar(255) not null,
 data_falecimento date,
-biografia text(200)
+biografia text(200),
+sexo_id int,
+nacionalidade_id int,
+foreign key (sexo_id) references tbl_sexo(id),
+foreign key (nacionalidade_id) references tbl_nacionalidade(id)
 );
+
+drop table tbl_atores;
 
 insert into tbl_atores (
 				nome,
 				data_nascimento,
 				foto,
 				data_falecimento,
-				biografia
+				biografia,
+                sexo_id,
+                nacionalidade_id
 				) values(
 				'Tyrese Darnell Gibson',
 				'1978-12-30',
@@ -97,14 +99,18 @@ insert into tbl_atores (
 				'Tyrese Darnell Gibson, também conhecido como apenas Tyrese, (Los Angeles, 30 de dezembro de 1978)[1] é um cantor de R&B, rapper e ator americano, é ex-modelo e VJ da MTV.
 				Depois de lançar vários álbuns, ele inicia sua carreira cinematográfica, com papel principais em vários filmes de Hollywood, incluindo Ruas Sangrentas - O Acerto Final,
 				a série Fast and the Furious começando por + Velozes + Furiosos, a trilogia Transformers,
-				O Voo da Fênix, Quatro Irmãos, e Baby Boy.'
+				O Voo da Fênix, Quatro Irmãos, e Baby Boy.',
+                1,
+                4
 				),
 				('Willard Carroll Smith',
 				'1968-09-25',
 				'https://br.web.img2.acsta.net/pictures/17/02/08/16/50/452749.jpg',
 				null,
 				'Willard Carroll Smith II, mais conhecido como Will Smith é um ator, rapper e produtor americano. Vencedor de diversos prêmios, incluindo um Oscar e quatro prêmios Grammy,
-				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música. '
+				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música. ',
+                1,
+                2
 				),
 				(
 				'Pedro Pedraga',
@@ -112,8 +118,125 @@ insert into tbl_atores (
 				'https://br.web.img2.acsta.net/pictures/17/02/08/16/50/452749.jpg',
 				null,
 				'Willard Carroll Smith II, mais conhecido como Will Smith é um ator, rapper e produtor americano. Vencedor de diversos prêmios, incluindo um Oscar e quatro prêmios Grammy,
-				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música.'
+				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música.',
+                2,
+                1
 				);
+                
+                
+CREATE TABLE  tbl_sexo (
+  id INT NOT NULL AUTO_INCREMENT primary key,
+  sigla VARCHAR(1) NOT NULL,
+  nome VARCHAR(45) NOT NULL,
+  unique key(id),
+  unique index(id)
+  );
+  drop table tbl_sexo;
+  
+  insert into tbl_sexo ( sigla, nome) values (
+											"M",
+											"Masculino"
+											  ), 
+                                              (
+											"F",
+											"Feminino"
+											  );
+
+create table tbl_nacionalidade (
+id int not null auto_increment primary key,
+nome varchar (20) not null
+);
+
+insert into tbl_nacionalidade	(
+								nome
+								) values
+                                (
+                                "Francês"
+                                ),
+                                (
+                                "Brasileiro"
+                                ),
+                                (
+                                "Americano"
+                                ),
+                                (
+                                "Africano"
+                                ),
+                                (
+                                "Inglês"
+                                ),
+                                (
+                                "Alemão"
+                                );
+                                
+create table tbl_nacionalidade_ator(
+	id int not null auto_increment primary key,
+	id_nacionalidade int not null,
+    id_ator int not null,
+    
+    constraint FK_NACIONALIDADE_NACIONALIDADEATOR
+    foreign key(id_nacionalidade)
+    references tbl_nacionalidade(id),
+    
+    constraint FK_ATOR_NACIONALIDADEATOR
+    foreign key(id_ator)
+    references tbl_atores(id)
+);
+
+drop table tbl_nacionalidade_ator;
+
+insert into tbl_nacionalidade_ator(
+									id_nacionalidade,
+									id_ator
+									) values(
+									1, 1
+									),
+                                    (
+                                    1, 2
+									),
+                                    (
+									2, 1
+									),
+                                    (
+									2, 2
+									);
+									  
+
+create table tbl_genero(
+id int not null auto_increment primary key,
+nome varchar(50)
+);
+select * from tbl_genero;
+
+drop table tbl_genero;
+
+delete from tbl_genero where id = 11;
+
+insert into tbl_genero(
+						nome
+					   )values(
+                       "Ação"
+                       ),
+                       (
+                       "Romance"
+                       ),
+                       (
+                       "Drama"
+                       ),
+                       (
+                       "Terror" 
+                       ),
+                       (
+                       "Suspense"
+                       ),
+                       (
+                       "Comédia"
+                       ),
+                       (
+                       "Ficção"
+                       );
+					
+                       
 									   
 
 create table tbl_diretores (
@@ -139,6 +262,12 @@ insert into tbl_diretores (
                             null,
                             'Justin Lin é um diretor, roteirista e produtor de cinema taiwanês-americano, conhecido por dirigir Better Luck Tomorrow e cinco filmes da série The Fast and the Furious.Nasceu em Taipei e cresceu em Orange County, Califórnia. Frequentou a Universidade da Califórnia, em San Diego, durante dois anos'
                             );
+                            
+create table tbl_ator_nacionalidade(
+id int not null auto_increment primary key,
+id_nacionalidade int not null,
+id_ator int not null
+);
                            
 create table tbl_classificacao (
 	id int not null auto_increment primary key,
@@ -191,6 +320,8 @@ select * from tbl_filme where nome like 'Eu sou%';
 show tables;
 
 select * from tbl_atores;
+
+desc tbl_atores;
                    
 select * from tbl_filme;
 

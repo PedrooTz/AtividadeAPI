@@ -11,7 +11,7 @@ const message = require('../modulo/config.js')
 
 // Import do arquivo DAO para manipular dados do banco de dados
 const filmesDAO = require('../model/DAO/filme.js');
-const { filmes } = require('../modulo/Filmes.js');
+
  
 // Função para inserir um novo filme no banco de dados
 const setInserirNovoFilme = async function(dadosFilme, contentType){
@@ -25,6 +25,7 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
 
     // Cria a variável json
     let resultDadosFilme = {}
+    console.log(dadosFilme)
 
     // Validação de campos obrigatórios e consistência de dados
     if( dadosFilme.nome == ''               || dadosFilme.nome == undefined              || dadosFilme.nome.length > 80               ||
@@ -32,7 +33,8 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
         dadosFilme.duracao == ''            || dadosFilme.duracao == undefined           || dadosFilme.duracao.length > 8             || 
         dadosFilme.data_lancamento == ''    || dadosFilme.data_lancamento == undefined   || dadosFilme.data_lancamento.length > 10    || 
         dadosFilme.foto_capa == ''          || dadosFilme.foto_capa == undefined         || dadosFilme.foto_capa.length > 200         ||
-        dadosFilme.valor_unitario.length > 8  
+        dadosFilme.valor_unitario.length > 8   ||
+        dadosFilme.tbl_classificacao_id == '' || dadosFilme.tbl_classificacao_id == undefined || dadosFilme.tbl_classificacao_id == null   
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
      }else{
@@ -94,7 +96,7 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
 
 
 // Função para atualizar um filme existente
-const setAtualizarFilme = async function (id, dadosFilme, contentType){
+const setAtualizarFilme = async function (id, contentType, dadosFilme){
     try {
         
         let idFilme = id; 
@@ -103,6 +105,8 @@ const setAtualizarFilme = async function (id, dadosFilme, contentType){
         }else{
 
             if(String(contentType).toLowerCase() == 'application/json'){
+
+          
 
     
 
@@ -115,12 +119,15 @@ const setAtualizarFilme = async function (id, dadosFilme, contentType){
                     dadosFilme.duracao == ''            || dadosFilme.duracao == undefined           || dadosFilme.duracao.length > 8             || 
                     dadosFilme.data_lancamento == ''    || dadosFilme.data_lancamento == undefined   || dadosFilme.data_lancamento.length > 10    || 
                     dadosFilme.foto_capa == ''          || dadosFilme.foto_capa == undefined         || dadosFilme.foto_capa.length > 200         ||
-                    dadosFilme.valor_unitario.length > 8  
+                    dadosFilme.valor_unitario.length > 8  ||
+                    dadosFilme.tbl_classificacao_id == '' || dadosFilme.tbl_classificacao_id == undefined || dadosFilme.tbl_classificacao_id == null   
                 ){
+
                     return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
                  }else{
                     // Variável para validar se poderemos chamar o DAO para inserir os dados
                     let dadosValidated = false;
+                  
             
                     // Validação de digitação para a data de relançamento que não é campo obrigatório
                     if( dadosFilme.data_relancamento != null &&
@@ -215,7 +222,7 @@ const setExcluirFilme = async  function(id){
 // Função para listar os filmes existentes 
 const getListarFilmes = async function(){
     
-    let listaFilmes = filmes;
+    let listaFilmes;
     // Cria uma variavel do tipo json
     let filmesJSON = {};
 

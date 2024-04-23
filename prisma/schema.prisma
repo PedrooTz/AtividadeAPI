@@ -17,8 +17,45 @@ model tbl_atores {
 }
 
 model tbl_classificacao {
-  id        Int     @id @unique(map: "id") @default(autoincrement())
-  categoria String  @db.VarChar(80)
-  descricao String? @db.Text
-  simbolo   String  @db.Text
+  id            Int    @id @default(autoincrement())
+  classificacao BigInt
+}
+
+model cadastro {
+  id    Int     @id @default(autoincrement())
+  nome  String? @db.VarChar(100)
+  email String? @db.VarChar(100)
+  senha String? @db.VarChar(100)
+}
+
+model login {
+  id    Int     @id @default(autoincrement())
+  email String? @db.VarChar(100)
+  senha String? @db.VarChar(100)
+}
+
+model tbl_diretores {
+  id             Int     @id @default(autoincrement())
+  nome           String  @db.VarChar(80)
+  filmes_diretor String? @db.VarChar(90)
+}
+
+model tbl_filme {
+  id                Int       @id @unique(map: "id") @default(autoincrement())
+  nome              String    @db.VarChar(80)
+  genero            String    @db.VarChar(80)
+  sinopse           String    @db.Text
+  atores            String    @db.Text
+  classificacao     Int
+  duracao           DateTime  @db.Time(0)
+  diretores         String    @db.Text
+  data_lancamento   DateTime  @db.Date
+  data_relancamento DateTime? @db.Date
+  foto_capa         String    @db.VarChar(200)
+  valor_unitario    Float?    @db.Float
+}
+
+model tbl_genero {
+  id   Int     @id @default(autoincrement())
+  nome String? @db.VarChar(50)
 }

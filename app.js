@@ -220,6 +220,17 @@ app.post('/v3/acmefilmes/ator', cors(), bodyParserJSON, async function(request, 
    response.json(resultDados);
 })
 
+app.put('/v3/acmefilmes/updateator/:id', cors(), bodyParserJSON, async function(request,response, next){
+    let idAtores = request.params.id;
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let dadosAtores = await controllerAtores.setUpdateAtor(idAtores, contentType, dadosBody);
+
+    response.status(dadosAtores.status_code);
+    response.json(dadosAtores);
+});
+
 
 // ***************************************************************************************************************************************** //
 // ************************************************************ CRUD DAS CLASSIFICAÇÔES **************************************************** //
@@ -397,6 +408,46 @@ app.get('/v3/acmefilmes/diretores/:id', cors(), async function(request, response
    response.json(dadosDiretor);
  
 });
+
+app.post('/v3/acmefilmes/insertdiretor', cors(), bodyParserJSON, async function(request, response, next){
+
+    // Recebe o content-type da requisição (API deve receber application/json )
+   let contentType = request.headers['content-type'];
+
+   // Recebe os dados encaminhados na requisição do body (JSON)
+   let dadosBody = request.body;
+
+   
+   // Encaminha os dados da requisição para a controller enviar para o banco de dados
+   let resultDados = await controllerDiretor.setInserirNovoDiretor(dadosBody, contentType);
+
+   response.status(resultDados.status_code);
+   response.json(resultDados);
+});
+
+app.delete('/v3/acmefilmes/diretores/:id', cors(), async function(request, response, next){
+
+    let idDiretores = request.params.id
+
+    let resultDados = await controllerDiretor.setDeleteDiretor(idDiretores);
+
+    response.status(resultDados.status_code);
+    response.json(resultDados);
+});
+
+app.put('/v3/acmefilmes/updatediretores/:id', cors(), bodyParserJSON, async function(request,response, next){
+    let idDiretor = request.params.id
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let dadosDiretor = await controllerDiretor.setUpdateDiretor(idDiretor, contentType, dadosBody);
+
+    response.status(dadosDiretor.status_code);
+    response.json(dadosDiretor);
+});
+
+
+
 
     
 

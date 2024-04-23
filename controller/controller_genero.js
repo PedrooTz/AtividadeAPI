@@ -143,7 +143,7 @@ const setDeleteGenero = async function(id){
             let chamarConst = await generoDAO.selectGeneroById(idGeneros)
 
             if(chamarConst.length > 0){
-                let dadosGenero = await generoDAO.selectGeneroById(id)
+                let dadosGenero = await generoDAO.deleteGeneroById(id)
 
                 if(dadosGenero){
                     return message.SUCESS_DELETED_ITEM
@@ -160,52 +160,58 @@ const setDeleteGenero = async function(id){
     }
 }
 
-const setUpdateGenero = async function(idGenero, contentType, dadosGenero){
-    try {
-        
-        if(String(contentType).toLowerCase() == 'application/json'){
+const setUpdateGenero = async function(id, contentType, dadosGenero){
+    try{
+        let idGenero = id;
+        console.log(idGenero)
 
-            let resultDadosGenero = {}
+        if(idGenero == '' || idGenero == undefined || isNaN (idGenero)){
+            return message.ERROR_INVALID_ID;
 
-            console.log(idGenero)
-        
-            if( 
-
-                
-                idGenero == ''         || idGenero == undefined          ||
-                dadosGenero.nome == '' || dadosGenero.nome == undefined  || dadosGenero.nome.length > 100
-             
-            ){                
-                return message.ERROR_REQUIRED_FIELDS // 400
-                
-            }else{
-                
-                let generoAtualizado = await generosDAO.updateGenero(dadosGenero, idGenero)
-                                        
-                dadosGenero.id = idGenero
-
-                if(generoAtualizado){
-                    resultDadosGenero.status = message.SUCESS_UPDATED_ITEM.status
-                    resultDadosGenero.status_code = message.SUCESS_UPDATED_ITEM.status_code
-                    resultDadosGenero.message = message.SUCESS_UPDATED_ITEM.message
-                    resultDadosGenero.genero = dadosGenero
-                    return resultDadosGenero
-                }else {
-
-                    return message.ERROR_INTERNAL_SERVER_DB // 500
-
-                }
-                
-            }
-    
+           
+            
         }else{
-            return message.ERROR_CONTENT_TYPE // 415
+
+        if(String(contentType).toLowerCase() == 'application/json'){
+            let updateGeneroJson = {};
+            
+            if(dadosGenero.nome == ''    || dadosGenero.nome == undefined       ||  dadosGenero.nome == null               || dadosGenero.nome.length > 255 
+    ){
+            return message.ERROR_REQUIRED_FIELDS
+        } else {
+
+            let validateStatus = true;
+
+            let generoById = await generoDAO.selectGeneroById(id)
+
+            if(generoById.length > 0){
+                if (validateStatus){
+                    let updateGenero = await generoDAO.updateGenero(id,dadosGenero);
+    
+                    if(updateGenero){
+                      
+                        updateGeneroJson.genero = dadosGenero
+                        updateGeneroJson.status = message.SUCESS_UPDATED_ITEM.status
+                        updateGeneroJson.status_code = message.SUCESS_UPDATED_ITEM.status_code
+                        updateGeneroJson.message = message.SUCESS_UPDATED_ITEM.message
+    
+                        return updateGeneroJson;
+                    } else {
+                         return message.ERROR_INTERNAL_SERVER_DB
+                    }
+                }
+            }else{
+                return message.ERROR_NOT_FOUND
+            }
+        }
+        } else {
+            return message.ERROR_CONTENT_TYPE
+        }
         }
 
     } catch (error) {
-        message.ERROR_INTERNAL_SERVER // 500
-    }   
-
+        return message.ERROR_INTERNAL_SERVER
+    }
 }
 
 
