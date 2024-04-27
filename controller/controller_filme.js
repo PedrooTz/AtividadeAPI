@@ -16,6 +16,7 @@ const classificacaoDAO = require('../model/DAO/classificacao.js');
 
 const generoDAO = require('../model/DAO/genero.js')
 
+const controllerAtor = require('./controller_atores.js')
  
 // Função para inserir um novo filme no banco de dados
 const setInserirNovoFilme = async function(dadosFilme, contentType){
@@ -243,9 +244,12 @@ const getListarFilmes = async function(){
         for (let filme of dadosFilmes){
             filme.genero = await generoDAO.selectGeneroById(filme.tbl_genero_id)
             filme.classificacao = await classificacaoDAO.selectClassficationsById(filme.tbl_classificacao_id)
+            filme.atores = await controllerAtor.getListarAtoresById(filme.tbl_ator_filme_id)
             delete filme.tbl_classificacao_id
+            delete filme.tbl_ator_filme_id
             delete filme.tbl_genero_id
         }
+    
         if(dadosFilmes.length > 0){
         // Montando a estrutura do JSOm
         filmesJSON.filmes = dadosFilmes;
@@ -284,7 +288,9 @@ const getBuscarFilme = async function(id){
             for (let filme of dadosFilme){
                 filme.genero = await generoDAO.selectGeneroById(filme.tbl_genero_id)
                 filme.classificacao = await classificacaoDAO.selectClassficationsById(filme.tbl_classificacao_id)
+                filme.atores = await controllerAtor.getListarAtoresById(filme.tbl_ator_filme_id)
                 delete filme.tbl_classificacao_id
+                delete filme.tbl_ator_filme_id
                 delete filme.tbl_genero_id
             }
             // Validação para verificar se existem dados de retorno

@@ -50,9 +50,9 @@ const updateAtor =  async function(id, dadosAtores) {
            if( dadosAtores.datafalecimento == null || 
                dadosAtores.datafalecimento == ''   ||
                dadosAtores.datafalecimento == undefined){
-                   sql = `update tbl_atores set nome = '${dadosAtores.nome}',  data_nascimento = '${dadosAtores.data_nascimento}',  foto = '${dadosAtores.foto}',  data_falecimento = null,  biografia = '${dadosAtores.biografia}', sexo_id ='${dadosAtores.sexo_id}', nacionalidade_id ='${dadosAtores.nacionalidade_id} where id = ${id}`
+                   sql = `update tbl_atores set nome = '${dadosAtores.nome}',  data_nascimento = '${dadosAtores.data_nascimento}',  foto = '${dadosAtores.foto}',  data_falecimento = null,  biografia = '${dadosAtores.biografia}', sexo_id ='${dadosAtores.sexo_id}', nacionalidade_id ='${dadosAtores.nacionalidade_id}' where id = ${id}`
                }else {
-                   sql = `update tbl_atores set nome = '${dadosAtores.nome}', data_nascimento =  '${dadosAtores.data_nascimento}', foto = '${dadosAtores.foto}', data_falecimento ='${dadosAtores.data_falecimento}',  biografia = '${dadosAtores.biografia}' where id = ${id}`
+                   sql = `update tbl_atores set nome = '${dadosAtores.nome}', data_nascimento =  '${dadosAtores.data_nascimento}', foto = '${dadosAtores.foto}', data_falecimento ='${dadosAtores.data_falecimento}',  biografia = '${dadosAtores.biografia}', sexo_id = '${dadosAtores.sexo_id}', nacionalidade_id = '${dadosAtores.nacionalidade_id}' where id = ${id}`
    
                }
            // Executa o script SQL no banco de dados | Devemos usar execute e não query!
