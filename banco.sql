@@ -28,11 +28,15 @@ data_relancamento date,
 foto_capa varchar(200) not null,
 valor_unitario float,
 tbl_classificacao_id int not null,
+tbl_genero_id int not null,
 unique index (id),
 unique key (id),
 
 FOREIGN KEY (tbl_classificacao_id) 
-REFERENCES tbl_classificacao (id)
+REFERENCES tbl_classificacao (id),
+
+FOREIGN KEY (tbl_genero_id) 
+REFERENCES tbl_genero (id)
 );
 
 drop table tbl_filme;
@@ -46,7 +50,8 @@ insert into tbl_filme(
 					data_relancamento,
 					foto_capa,
 					valor_unitario,
-                    tbl_classificacao_id
+                    tbl_classificacao_id,
+                    tbl_genero_id
 					)values (
 					'Velozes e Furiosos 6',
 					'Em Velozes e Furiosos 6, os heróis se espalham pelo mundo após o golpe de Dom (Vin Diesel) e Brian (Paul Walker) no Rio de Janeiro que deixou o grupo com US$100 milhões',
@@ -55,6 +60,7 @@ insert into tbl_filme(
 					null,
 					'https://br.web.img2.acsta.net/c_310_420/medias/nmedia/18/92/81/46/20528636.jpg',
 					'23.00',
+                    1,
                     1
 					),
 					(
@@ -65,7 +71,8 @@ insert into tbl_filme(
 					null,
 					'https://br.web.img3.acsta.net/c_310_420/medias/nmedia/18/91/08/87/20128900.jpg',
 					'50.00',
-                    1
+                    5,
+                    7
 					);
 									   
 create table tbl_atores(
@@ -200,7 +207,53 @@ insert into tbl_nacionalidade_ator(
                                     (
 									2, 2
 									);
+                                    
+create table tbl_classificacao_filme(
+	id int not null auto_increment primary key,
+    id_classificacao int not null,
+    id_filme int not null,
+    
+     foreign key(id_classificacao)
+    references tbl_classificacao(id)
+    );
+    
+insert into tbl_classificacao_filme(
+									id_classificacao,
+                                    id_filme
+                                    ) values
+                                    (
+                                    2, 1
+                                    ),
+                                    (
+                                    5, 2
+                                    );
+                                    
+drop table tbl_classificacao_filme;
+
+create table tbl_genero_filme(
+	id int not null auto_increment primary key,
+	id_genero int not null,
+    id_filme int not null,
+    
+	foreign key(id_genero)
+    references tbl_genero(id)
+    
+);
+drop table tbl_genero_filme;
+
+insert into tbl_genero_filme(
+							id_genero,
+                            id_filme
+                            ) values
+                            (
+                            1, 1
+                            ),
+                            (
+                            2, 7
+                            );
+
 									  
+								
 
 create table tbl_genero(
 id int not null auto_increment primary key,

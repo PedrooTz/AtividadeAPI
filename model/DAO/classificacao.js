@@ -14,17 +14,8 @@ const prisma = new PrismaClient();
 
 const selectAllClassfications = async function(){
 
-    // Script sql para listar todos os registros
     let sql = 'select * from tbl_classificacao order by id desc';
-
-    // $queryRawUnsafe(sql)  = Encaminha apenas a variável
-    // $queryRaw('select * from tbl_classificacao) = Encaminha o script do banco 
-
-    // Executa o script no banco de dados e recebe o retorno dos dados da variavel rsFilmes
     let rsClassficacao = await prisma.$queryRawUnsafe(sql)
-     // Para usar await a função necessita ser async(async function)
-
-    // Tratamento de erro para retornar dados ou retornar false
      if(rsClassficacao.length > 0)
      return rsClassficacao;
      else

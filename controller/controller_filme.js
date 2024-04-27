@@ -12,6 +12,10 @@ const message = require('../modulo/config.js')
 // Import do arquivo DAO para manipular dados do banco de dados
 const filmesDAO = require('../model/DAO/filme.js');
 
+const classificacaoDAO = require('../model/DAO/classificacao.js');
+
+const generoDAO = require('../model/DAO/genero.js')
+
  
 // Função para inserir um novo filme no banco de dados
 const setInserirNovoFilme = async function(dadosFilme, contentType){
@@ -236,6 +240,12 @@ const getListarFilmes = async function(){
     
     // Verifica se existem dados retornados do DAO
     if(dadosFilmes){
+        for (let filme of dadosFilmes){
+            filme.genero = await generoDAO.selectGeneroById(filme.tbl_genero_id)
+            filme.classificacao = await classificacaoDAO.selectClassficationsById(filme.tbl_classificacao_id)
+            delete filme.tbl_classificacao_id
+            delete filme.tbl_genero_id
+        }
         if(dadosFilmes.length > 0){
         // Montando a estrutura do JSOm
         filmesJSON.filmes = dadosFilmes;
@@ -271,6 +281,12 @@ const getBuscarFilme = async function(id){
 
         // Validação para verificar se existem dados encontrados
         if(dadosFilme){
+            for (let filme of dadosFilme){
+                filme.genero = await generoDAO.selectGeneroById(filme.tbl_genero_id)
+                filme.classificacao = await classificacaoDAO.selectClassficationsById(filme.tbl_classificacao_id)
+                delete filme.tbl_classificacao_id
+                delete filme.tbl_genero_id
+            }
             // Validação para verificar se existem dados de retorno
             if(dadosFilme.length > 0){
             filmeJSON.filme = dadosFilme;

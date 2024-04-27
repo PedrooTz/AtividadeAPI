@@ -35,12 +35,10 @@ const getListarAtores = async function(){
         if(dadosAtores.length > 0){
             if(dadosAtores.length > 0){
                 for (let ator of dadosAtores){
-                    let sexoAtor = await sexoDAO.selectByIdSexo(ator.sexo_id)
-                    ator.sexo = sexoAtor 
-                }
-                for (let ator of dadosAtores){
-                    let nacionalidadeator = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
-                    ator.nacionalidade = nacionalidadeator 
+                    ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
+                    ator.nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
+                    delete ator.sexo_id
+                    delete ator.nacionalidade_id 
                 }
 
 
@@ -80,12 +78,10 @@ const getListarAtoresById = async function (id){
             // Validação para verificar se existem dados encontrados
             if(dadosAtores){
                 for (let ator of dadosAtores){
-                    let sexoAtor = await sexoDAO.selectByIdSexo(ator.sexo_id)
-                    ator.sexo = sexoAtor 
-                }
-                for (let ator of dadosAtores){
-                    let nacionalidadeator = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
-                    ator.nacionalidade = nacionalidadeator 
+                    ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
+                    ator.nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
+                    delete ator.sexo_id
+                    delete ator.nacionalidade_id 
                 }
                 // Validação para verificar se existem dados de retorno
                 if(dadosAtores.length > 0){
@@ -149,7 +145,9 @@ const setInserirNovoAtor = async (dadosAtores, contentType) => {
         dadosAtores.data_nascimento == ''            || dadosAtores.data_nascimento == undefined            || dadosAtores.data_nascimento.length > 10       || 
         dadosAtores.foto == ''                       || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 65000           || 
         dadosAtores.biografia == ''                  || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000         || 
-        dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1    
+        dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
+        dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1       
+        
         
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
@@ -220,7 +218,8 @@ const setUpdateAtor = async function(id, contentType, dadosAtores){
                 if( dadosAtores.nome == ''               || dadosAtores.nome == undefined              || dadosAtores.nome.length > 80               ||
                 dadosAtores.data_nascimento == ''            || dadosAtores.data_nascimento == undefined            || dadosAtores.data_nascimento.length > 10       || 
                 dadosAtores.foto == ''            || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 200             || 
-                dadosAtores.biografia == ''    || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000   
+                dadosAtores.biografia == ''    || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000      
+        
                 
             ){
                     return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
@@ -245,7 +244,7 @@ const setUpdateAtor = async function(id, contentType, dadosAtores){
             
                     
                     // Encaminha os dados para o DAO, inserir no Banco de Dados
-                    let novoAtor = await atoresDAO.insertAtor(dadosAtores);
+                    let novoAtor = await atoresDAO.updateAtor(dadosAtores);
             
                     
                     // Validação de inserção de dados no banco de dados 
