@@ -233,7 +233,7 @@ data_falecimento date,
 biografia text,
 id_nacionalidade int not null,
 
-foreign key (id_nacionalidade) references tbl_nacionalidade_diretor(id)
+foreign key (id_nacionalidade) references tbl_nacionalidade(id)
 
 );
 drop table tbl_diretores;
@@ -285,7 +285,7 @@ insert into tbl_nacionalidade_diretor(
                                     id_diretor
 								   ) values
                                    (
-                                   1, 1
+                                   2, 1
                                    ),
                                    (
                                    2,2
