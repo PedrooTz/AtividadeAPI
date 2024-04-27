@@ -16,9 +16,10 @@ const sexoDAO = require('../model/DAO/sexo.js')
 
 const nacionalidadeDAO = require('../model/DAO/nacionalidade.js')
 
-const controllerAtores = require('./controller_filme.js')
+const controllerFilme = require('./controller_filme.js')
 
 const filmeDAO = require('../model/DAO/filme.js')
+
 
 
 const getListarAtores = async function(){
@@ -40,7 +41,8 @@ const getListarAtores = async function(){
             if(dadosAtores.length > 0){
                 for (let ator of dadosAtores){
                     ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
-                    ator.nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
+                    ator.id_nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(ator.nacionalidade_id)
+                    ator.filme = await filmeDAO.selectByIdFilme(ator.filme_ator_id)
                     delete ator.filme_ator_id
                     delete ator.sexo_id
                     delete ator.nacionalidade_id 

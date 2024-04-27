@@ -13,6 +13,7 @@ const message = require('../modulo/config.js')
 const diretoresDAO = require('../model/DAO/diretores.js');
 
 
+
 const getListarDiretores = async function(){
     let listaDiretores;
     
@@ -24,6 +25,12 @@ const getListarDiretores = async function(){
         let dadosDiretores = await diretoresDAO.selectAllDirectors();
             // Verifica se existem dados retornados do DAO
     if(dadosDiretores){
+        for (let diretor of dadosDiretores){
+            // ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
+            diretor.nacionalidade = await diretoresDAO.selectDirectorById(diretor.id_nacionalidade)
+            delete diretor.id_nacionalidade 
+        }
+
         if(dadosDiretores.length > 0){
         // Montando a estrutura do JSOm
         diretoresJSON.diretores = dadosDiretores;

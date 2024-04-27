@@ -29,6 +29,7 @@ foto_capa varchar(200) not null,
 valor_unitario float,
 tbl_classificacao_id int not null,
 tbl_genero_id int not null,
+tbl_ator_filme_id int not null,
 unique index (id),
 unique key (id),
 
@@ -36,7 +37,10 @@ FOREIGN KEY (tbl_classificacao_id)
 REFERENCES tbl_classificacao (id),
 
 FOREIGN KEY (tbl_genero_id) 
-REFERENCES tbl_genero (id)
+REFERENCES tbl_genero (id),
+
+FOREIGN KEY (tbl_ator_filme_id) 
+REFERENCES tbl_atores (id)
 );
 
 drop table tbl_filme;
@@ -51,7 +55,8 @@ insert into tbl_filme(
 					foto_capa,
 					valor_unitario,
                     tbl_classificacao_id,
-                    tbl_genero_id
+                    tbl_genero_id,
+                    tbl_ator_filme_id
 					)values (
 					'Velozes e Furiosos 6',
 					'Em Velozes e Furiosos 6, os heróis se espalham pelo mundo após o golpe de Dom (Vin Diesel) e Brian (Paul Walker) no Rio de Janeiro que deixou o grupo com US$100 milhões',
@@ -60,6 +65,7 @@ insert into tbl_filme(
 					null,
 					'https://br.web.img2.acsta.net/c_310_420/medias/nmedia/18/92/81/46/20528636.jpg',
 					'23.00',
+                    1,
                     1,
                     1
 					),
@@ -72,7 +78,8 @@ insert into tbl_filme(
 					'https://br.web.img3.acsta.net/c_310_420/medias/nmedia/18/91/08/87/20128900.jpg',
 					'50.00',
                     5,
-                    7
+                    7,
+                    2
 					);
 									   
 create table tbl_atores(
@@ -84,8 +91,10 @@ data_falecimento date,
 biografia text(200),
 sexo_id int,
 nacionalidade_id int,
+filme_ator_id int,
 foreign key (sexo_id) references tbl_sexo(id),
-foreign key (nacionalidade_id) references tbl_nacionalidade(id)
+foreign key (nacionalidade_id) references tbl_nacionalidade(id),
+foreign key (filme_ator_id) references tbl_filme(id)
 );
 
 drop table tbl_atores;
@@ -97,7 +106,8 @@ insert into tbl_atores (
 				data_falecimento,
 				biografia,
                 sexo_id,
-                nacionalidade_id
+                nacionalidade_id,
+                filme_ator_id
 				) values(
 				'Tyrese Darnell Gibson',
 				'1978-12-30',
@@ -108,7 +118,8 @@ insert into tbl_atores (
 				a série Fast and the Furious começando por + Velozes + Furiosos, a trilogia Transformers,
 				O Voo da Fênix, Quatro Irmãos, e Baby Boy.',
                 1,
-                4
+                4,
+                1
 				),
 				('Willard Carroll Smith',
 				'1968-09-25',
@@ -117,6 +128,7 @@ insert into tbl_atores (
 				'Willard Carroll Smith II, mais conhecido como Will Smith é um ator, rapper e produtor americano. Vencedor de diversos prêmios, incluindo um Oscar e quatro prêmios Grammy,
 				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música. ',
                 1,
+                2,
                 2
 				),
 				(
@@ -127,6 +139,7 @@ insert into tbl_atores (
 				'Willard Carroll Smith II, mais conhecido como Will Smith é um ator, rapper e produtor americano. Vencedor de diversos prêmios, incluindo um Oscar e quatro prêmios Grammy,
 				tornou-se um dos poucos artistas a ter sucesso em três diferentes áreas de entretenimento dos Estados Unidos: cinema, televisão e música.',
                 2,
+                1,
                 1
 				);
                 
@@ -208,6 +221,79 @@ insert into tbl_nacionalidade_ator(
 									2, 2
 									);
                                     
+                                    
+                                    
+
+create table tbl_diretores (
+id int not null auto_increment primary key,
+nome varchar(80) not null,
+data_nascimento date not null,
+foto varchar(255) not null,
+data_falecimento date,
+biografia text,
+id_nacionalidade int not null,
+
+foreign key (id_nacionalidade) references tbl_nacionalidade_diretor(id)
+
+);
+drop table tbl_diretores;
+
+insert into tbl_diretores (
+                            nome,
+                            data_nascimento,
+                            foto,
+                            data_falecimento,
+                            biografia,
+                            id_nacionalidade
+                            )values (
+                            'Justin Lin',
+                            '1971-10-11',
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQc3hSRMesfeyyrkaIJkg1dmoWcUF00bjUbF3Cv7mfIg&s',
+                            null,
+                            'Justin Lin é um diretor, roteirista e produtor de cinema taiwanês-americano, conhecido por dirigir Better Luck Tomorrow e cinco filmes da série The Fast and the Furious.Nasceu em Taipei e cresceu em Orange County, Califórnia. Frequentou a Universidade da Califórnia, em San Diego, durante dois anos',
+                            1
+                            ),
+                            (
+                            'Francis Lawrence',
+                            '1971-03-26',
+                            'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcTxOOv_-RRminOLpxWgXHs6O2eKWvvMICXsu5HhdSgG0rcCVuLKT6FxNpAYWnuFXAf9',
+                            null,
+                            'Francis Lawrence é um cineasta austríaco naturalizado americano. Antes de estrear como diretor de cinema, Lawrence era conhecido apenas por dirigir
+                            alguns videoclipes ',
+                            1
+                            );
+                           
+                                    
+create table tbl_nacionalidade_diretor(
+	id int not null auto_increment primary key,
+	id_nacionalidade int not null,
+    id_diretor int not null,
+    
+	constraint FK_NACIONALIDADE_NACIONALIDADEDIRETOR
+    foreign key(id_nacionalidade)
+    references tbl_nacionalidade(id),
+    
+	constraint FK_DIRETOR_NACIONALIDADEDIRETOR
+    foreign key(id_diretor)
+    references tbl_diretores(id)
+    
+);
+drop table tbl_nacionalidade_diretor;
+
+insert into tbl_nacionalidade_diretor(
+									id_nacionalidade,
+                                    id_diretor
+								   ) values
+                                   (
+                                   1, 1
+                                   ),
+                                   (
+                                   2,2
+                                   );
+
+                                    
+	
+                                    
 create table tbl_classificacao_filme(
 	id int not null auto_increment primary key,
     id_classificacao int not null,
@@ -288,39 +374,6 @@ insert into tbl_genero(
                        (
                        "Ficção"
                        );
-					
-                       
-									   
-
-create table tbl_diretores (
-id int not null auto_increment primary key,
-nome varchar(80) not null,
-data_nascimento date not null,
-foto varchar(255) not null,
-data_falecimento date,
-biografia text
-);
-drop table tbl_diretores;
-
-insert into tbl_diretores (
-                            nome,
-                            data_nascimento,
-                            foto,
-                            data_falecimento,
-                            biografia
-                            )values (
-                            'Justin Lin',
-                            '1971-10-11',
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQc3hSRMesfeyyrkaIJkg1dmoWcUF00bjUbF3Cv7mfIg&s',
-                            null,
-                            'Justin Lin é um diretor, roteirista e produtor de cinema taiwanês-americano, conhecido por dirigir Better Luck Tomorrow e cinco filmes da série The Fast and the Furious.Nasceu em Taipei e cresceu em Orange County, Califórnia. Frequentou a Universidade da Califórnia, em San Diego, durante dois anos'
-                            );
-                            
-create table tbl_ator_nacionalidade(
-id int not null auto_increment primary key,
-id_nacionalidade int not null,
-id_ator int not null
-);
                            
 create table tbl_classificacao (
 	id int not null auto_increment primary key,
