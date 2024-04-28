@@ -12,6 +12,11 @@ const message = require('../modulo/config.js')
 // Import do arquivo DAO para manipular dados do banco de dados
 const diretoresDAO = require('../model/DAO/diretores.js');
 
+const nacionalidadeDAO = require('../model/DAO/nacionalidade.js')
+
+const sexoDAO = require('../model/DAO/sexo.js')
+
+const filmeDAO = require('../model/DAO/filme.js')
 
 
 const getListarDiretores = async function(){
@@ -27,8 +32,12 @@ const getListarDiretores = async function(){
     if(dadosDiretores){
         for (let diretor of dadosDiretores){
             // ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
-            diretor.nacionalidade = await diretoresDAO.selectDirectorById(diretor.id_nacionalidade)
-            delete diretor.id_nacionalidade 
+            diretor.nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(diretor.nacionalidadediretor_id)
+            diretor.sexo = await sexoDAO.selectByIdSexo(diretor.sexo_id)
+            diretor.filme = await filmeDAO.selectByIdFilme(diretor.filme_id)
+            delete diretor.filme_id
+            delete diretor.sexo_id
+            delete diretor.nacionalidadediretor_id 
         }
 
         if(dadosDiretores.length > 0){
@@ -66,6 +75,15 @@ const getListarDiretorById = async function (id){
 
         // Validação para verificar se existem dados encontrados
         if(dadosDiretores){
+            for (let diretor of dadosDiretores){
+                // ator.sexo = await sexoDAO.selectByIdSexo(ator.sexo_id)
+                diretor.nacionalidade = await nacionalidadeDAO.selectByIdNacionalidade(diretor.nacionalidadediretor_id)
+                diretor.sexo = await sexoDAO.selectByIdSexo(diretor.sexo_id)
+                diretor.filme = await filmeDAO.selectByIdFilme(diretor.filme_id)
+                delete diretor.filme_id
+                delete diretor.sexo_id
+                delete diretor.nacionalidadediretor_id 
+            }
             // Validação para verificar se existem dados de retorno
             if(dadosDiretores.length > 0){
             diretorJSON.diretores = dadosDiretores;
@@ -128,7 +146,9 @@ const setInserirNovoDiretor = async (dadosDiretores, contentType) => {
     if( dadosDiretores.nome == ''                       || dadosDiretores.nome == undefined              || dadosDiretores.nome.length > 150              ||
         dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined            || dadosDiretores.data_nascimento.length > 10       || 
         dadosDiretores.foto == ''                       || dadosDiretores.foto == undefined           ||dadosDiretores.foto.length > 65000           || 
-        dadosDiretores.biografia == ''                  || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   
+        dadosDiretores.biografia == ''                  || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   || 
+        dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
+        dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1         
         
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
@@ -199,7 +219,9 @@ const setUpdateDiretor = async function(id, contentType, dadosDiretores){
                 if( dadosDiretores.nome == ''               || dadosDiretores.nome == undefined              || dadosDiretores.nome.length > 80               ||
                 dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined            || dadosDiretores.data_nascimento.length > 10       || 
                 dadosDiretores.foto == ''            || dadosDiretores.foto == undefined           ||dadosDiretores.foto.length > 200             || 
-                dadosDiretores.biografia == ''    || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   
+                dadosDiretores.biografia == ''    || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   ||
+                dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
+                dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1 
                 
             ){
                     return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos

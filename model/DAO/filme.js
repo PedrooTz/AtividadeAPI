@@ -29,7 +29,10 @@ const insertFilme =  async function(dadosFilme) {
                 data_relancamento,
                 duracao,
                 foto_capa,
-                valor_unitario
+                valor_unitario,
+                tbl_classificacao_id,
+                tbl_ator_filme_id,
+                tbl_genero_id
             ) values (
                 '${dadosFilme.nome}',
                 '${dadosFilme.sinopse}',
@@ -37,7 +40,10 @@ const insertFilme =  async function(dadosFilme) {
                  null,
                 '${dadosFilme.duracao}',
                 '${dadosFilme.foto_capa}',
-                '${dadosFilme.valor_unitario}'
+                '${dadosFilme.valor_unitario}',
+                '${dadosFilme.tbl_classificacao_id}',
+                '${dadosFilme.tbl_ator_filme_id}',
+                '${dadosFilme.tbl_genero_id}'
             )`;
 
         }else{
@@ -49,7 +55,10 @@ const insertFilme =  async function(dadosFilme) {
             data_relancamento,
             duracao,
             foto_capa,
-            valor_unitario
+            valor_unitario,
+            tbl_classificacao_id,
+            tbl_ator_filme_id,
+            tbl_genero_id
         ) values (
             '${dadosFilme.nome}',
             '${dadosFilme.sinopse}',
@@ -57,7 +66,10 @@ const insertFilme =  async function(dadosFilme) {
             '${dadosFilme.data_relancamento}',
             '${dadosFilme.duracao}',
             '${dadosFilme.foto_capa}',
-            '${dadosFilme.valor_unitario}'
+            '${dadosFilme.valor_unitario}',
+            '${dadosFilme.tbl_classificacao_id}',
+            '${dadosFilme.tbl_ator_filme_id}',
+            '${dadosFilme.tbl_genero_id}'
         )`;
         }
        
@@ -93,39 +105,50 @@ const selectIdFilme = async function() {
 }
 
 // Atualizar um Filme existente filtrando pelo ID
-const updateFilme = async function(id) {
+const updateFilme = async function(id, dadosFilme) {
 
     try {
-        let sql;
+        let sql
         if( dadosFilme.data_relancamento == null || 
             dadosFilme.data_relancamento == ''   ||
              dadosFilme.data_relancamento == undefined){
              // Script SQL para inserir no banco de dados
-            sql = `UPDATE tbl_filme SET
-                '${dadosFilme.nome}',
-                '${dadosFilme.sinopse}',
-                '${dadosFilme.data_lancamento}',
-                 null,
-                '${dadosFilme.duracao}',
-                '${dadosFilme.foto_capa}',
-                '${dadosFilme.valor_unitario}'
-            )`;
+             sql = `update tbl_filme set
+             nome = '${dadosFilme.nome}',
+             sinopse = '${dadosFilme.sinopse}',
+             data_lancamento = '${dadosFilme.data_lancamento}',
+             data_relancamento = null,
+             duracao = '${dadosFilme.duracao}',
+             foto_capa = '${dadosFilme.foto_capa}',
+             valor_unitario ='${dadosFilme.valor_unitario}',
+             tbl_classificacao_id ='${dadosFilme.tbl_classificacao_id}',
+             tbl_genero_id ='${dadosFilme.tbl_genero_id}',
+             tbl_ator_filme_id ='${dadosFilme.tbl_ator_filme_id}'
+             where id = ${id}`;
 
         }else{
              // Script SQL para inserir no banco de dados
             sql = `UPDATE tbl_filme SET
-            '${dadosFilme.nome}',
-            '${dadosFilme.sinopse}',
-            '${dadosFilme.data_lancamento}',
-            '${dadosFilme.data_relancamento}',
-            '${dadosFilme.duracao}',
-            '${dadosFilme.foto_capa}',
-            '${dadosFilme.valor_unitario}'
-        )`;
-        }
-        
+                nome = '${dadosFilme.nome}',
+                sinopse = '${dadosFilme.sinopse}',
+                data_lancamento = '${dadosFilme.data_lancamento}',
+                data_relancamento = '${dadosFilme.data_relancamento}',
+                duracao = '${dadosFilme.duracao}',
+                foto_capa = '${dadosFilme.foto_capa}',
+                valor_unitario ='${dadosFilme.valor_unitario}',
+                tbl_classificacao_id ='${dadosFilme.tbl_classificacao_id}',
+                tbl_genero_id ='${dadosFilme.tbl_genero_id}',
+                tbl_ator_filme_id ='${dadosFilme.tbl_ator_filme_id}'
+                where id = ${id}`;
+        } 
+        let result = await prisma.$executeRawUnsafe(sql);
+        if(result )
+            return true;
+        else
+            return false;
     } catch (error) {
-        
+        console.log(error)
+        return false;
     }
 
 }

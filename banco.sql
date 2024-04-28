@@ -1,21 +1,6 @@
 create database db_acme_filmes_turma_ab;
 use db_acme_filmes_turma_ab;
 
-create table login(
-id int not null auto_increment primary key,
-email varchar(100),
-senha varchar(100)
-);
-
-/* INSERT INTO  */
-
-create table cadastro(
-id int not null auto_increment primary key,
-nome varchar(100),
-email varchar(100),
-senha varchar(100)
-);
-
 /* INSERT INTO */
 
 create table tbl_filme (
@@ -30,6 +15,7 @@ valor_unitario float,
 tbl_classificacao_id int not null,
 tbl_genero_id int not null,
 tbl_ator_filme_id int not null,
+tbl_diretor_filme_id int not null,
 unique index (id),
 unique key (id),
 
@@ -39,8 +25,14 @@ REFERENCES tbl_classificacao (id),
 FOREIGN KEY (tbl_genero_id) 
 REFERENCES tbl_genero (id),
 
+
 FOREIGN KEY (tbl_ator_filme_id) 
-REFERENCES tbl_atores (id)
+REFERENCES tbl_ator_filme (id),
+
+/* NÂO INSERIDO NA TABELA // A INSERIR!!!!!!!!!!!!!!!!!!! */
+FOREIGN KEY (tbl_diretor_filme_id) 
+REFERENCES tbl_diretores(id)
+
 );
 
 drop table tbl_filme;
@@ -81,6 +73,31 @@ insert into tbl_filme(
                     7,
                     2
 					);
+                    
+create table tbl_ator_filme(
+	id int not null auto_increment primary key,
+    id_filme int not null,
+    id_ator int not null
+
+);
+
+alter table tbl_ator_filme add foreign key(id_filme) references tbl_filme(id);
+alter table tbl_ator_filme add foreign key(id_ator) references tbl_atores(id);
+
+drop table tbl_ator_filme;
+
+
+insert into tbl_ator_filme(
+						   id_filme,
+                           id_ator
+						  ) values
+                          (
+                          1, 1
+                          ),
+                          (
+                          2, 2
+                          );
+
 									   
 create table tbl_atores(
 id int not null auto_increment primary key,
@@ -94,8 +111,9 @@ nacionalidade_id int,
 filme_ator_id int,
 foreign key (sexo_id) references tbl_sexo(id),
 foreign key (nacionalidade_id) references tbl_nacionalidade(id),
-foreign key (filme_ator_id) references tbl_filme(id)
+foreign key (filme_ator_id) references tbl_ator_filme(id)
 );
+
 
 drop table tbl_atores;
 
@@ -231,11 +249,26 @@ data_nascimento date not null,
 foto varchar(255) not null,
 data_falecimento date,
 biografia text,
-id_nacionalidade int not null,
-
-foreign key (id_nacionalidade) references tbl_nacionalidade(id)
-
+nacionalidadediretor_id int not null,
+sexo_id int not null,
+filme_id int not null
 );
+
+alter table tbl_diretores add foreign key(nacionalidadediretor_id) references tbl_nacionalidade_diretor(id);
+
+alter table tbl_diretores add foreign key(sexo_id) references tbl_sexo(id);
+
+alter table tbl_diretores add foreign key(filme_id) references tbl_filme(id);
+
+alter table tbl_diretores add key(nacionalidadediretor_id);
+
+alter table tbl_diretores add key(sexo_id);
+
+alter table tbl_diretores drop constraint tbl_diretores_ibfk_2;
+
+show tables;
+
+
 drop table tbl_diretores;
 
 insert into tbl_diretores (
@@ -244,13 +277,17 @@ insert into tbl_diretores (
                             foto,
                             data_falecimento,
                             biografia,
-                            id_nacionalidade
+                            nacionalidadediretor_id,
+                            sexo_id,
+                            filme_id
                             )values (
                             'Justin Lin',
                             '1971-10-11',
                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQc3hSRMesfeyyrkaIJkg1dmoWcUF00bjUbF3Cv7mfIg&s',
                             null,
                             'Justin Lin é um diretor, roteirista e produtor de cinema taiwanês-americano, conhecido por dirigir Better Luck Tomorrow e cinco filmes da série The Fast and the Furious.Nasceu em Taipei e cresceu em Orange County, Califórnia. Frequentou a Universidade da Califórnia, em San Diego, durante dois anos',
+                            1,
+                            1,
                             1
                             ),
                             (
@@ -260,35 +297,40 @@ insert into tbl_diretores (
                             null,
                             'Francis Lawrence é um cineasta austríaco naturalizado americano. Antes de estrear como diretor de cinema, Lawrence era conhecido apenas por dirigir
                             alguns videoclipes ',
+                            2,
+                            1,
                             1
-                            );
+);
                            
                                     
 create table tbl_nacionalidade_diretor(
 	id int not null auto_increment primary key,
-	id_nacionalidade int not null,
+	nacionalidade_id int not null,
     id_diretor int not null,
     
-	constraint FK_NACIONALIDADE_NACIONALIDADEDIRETOR
-    foreign key(id_nacionalidade)
+	/* constraint FK_NACIONALIDADE_NACIONALIDADEDIRETOR */
+    foreign key(nacionalidade_id)
     references tbl_nacionalidade(id),
     
-	constraint FK_DIRETOR_NACIONALIDADEDIRETOR
+	/* constraint FK_DIRETOR_NACIONALIDADEDIRETOR */
     foreign key(id_diretor)
     references tbl_diretores(id)
     
 );
+
+alter table tbl_nacionalidade_diretor add key(nacionalidade_id);
+alter table tbl_nacionalidade_diretor add key(id_diretor);
 drop table tbl_nacionalidade_diretor;
 
 insert into tbl_nacionalidade_diretor(
-									id_nacionalidade,
+									nacionalidade_id,
                                     id_diretor
 								   ) values
                                    (
                                    2, 1
                                    ),
                                    (
-                                   2,2
+                                   1 ,2
                                    );
 
                                     

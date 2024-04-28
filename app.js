@@ -147,7 +147,7 @@ app.delete('/v2/acmefilmes/filmes/:id', cors(), async function(request, response
 })
 
 // Faz o update de um filme existente
-app.put('/v2/acmefilmes/filmes/:id', cors(), async function(request,response, next){
+app.put('/v2/acmefilmes/filmes/:id', cors(), bodyParserJSON, async function(request,response, next){
     let idFilme = request.params.id
     let contentType = request.headers['content-type']
     let dadosBody = request.body
