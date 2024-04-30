@@ -92,19 +92,6 @@ app.get('/v2/filmesacme/:id', cors(), async function(request, response,next){
         }
     });
 
-// Buscar o filme pelo seu nome
-
-    app.get('/v2/acmefilmes/filmes', cors(), async function(request,response,next){
-    
-
-        if(filtroFilmes){
-        response.json(filtroFilmes)
-        response.status(200);
-        } else {
-            response.json({ message: 'Nenhum registro encontrado'})
-            response.status()
-        }
-    });
 
 // Endpoint: Retorna os dados do filme filtrando pelo ID
 app.get('/v2/acmefilmes/filme/:id', cors(), async function(request, response, next){

@@ -17,6 +17,8 @@ const classificacaoDAO = require('../model/DAO/classificacao.js');
 const generoDAO = require('../model/DAO/genero.js')
 
 const controllerAtor = require('./controller_atores.js')
+
+const diretorDAO= require('../model/DAO/diretores.js')
  
 // Função para inserir um novo filme no banco de dados
 const setInserirNovoFilme = async function(dadosFilme, contentType){

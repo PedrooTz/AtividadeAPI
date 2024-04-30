@@ -147,8 +147,10 @@ const setInserirNovoDiretor = async (dadosDiretores, contentType) => {
         dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined            || dadosDiretores.data_nascimento.length > 10       || 
         dadosDiretores.foto == ''                       || dadosDiretores.foto == undefined           ||dadosDiretores.foto.length > 65000           || 
         dadosDiretores.biografia == ''                  || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   || 
-        dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
-        dadosAtores.nacionalidadediretor_id == ''           || dadosAtores.nacionalidadediretor_id == undefined     ||    dadosAtores.nacionalidadediretor_id.length > 1         
+        dadosDiretores.nacionalidadediretor_id == ''           || dadosDiretores.nacionalidadediretor_id == undefined     ||    dadosDiretores.nacionalidadediretor_id.length > 1    ||
+        dadosDiretores.sexo_id == ''                    || dadosDiretores.sexo_id == undefined     ||    dadosDiretores.sexo_id.length > 1        || 
+        dadosDiretores.filme_id == ''           || dadosDiretores.filme_id == undefined     ||    dadosDiretores.filme_id.length > 1         
+   
         
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
