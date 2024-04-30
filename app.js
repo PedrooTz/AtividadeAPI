@@ -45,6 +45,8 @@ const bodyParserJSON = bodyParser.json();
 
     const controllerDiretor = require('./controller/controller_diretor.js')
 
+    const controllerNacionalidade = require('./controller/controller_nacionalidadde.js')
+
 // ************************************************************************************************* //
 //Função para configurar as permissões do cors
 app.use((request, response, next)=>{
@@ -444,6 +446,34 @@ app.put('/v3/acmefilmes/updatediretores/:id', cors(), bodyParserJSON, async func
 
     response.status(dadosDiretor.status_code);
     response.json(dadosDiretor);
+});
+
+
+app.get('/v3/acmefilmes/nacionalidade', cors(), async function(request, response, next){
+
+    // Chama a função para retornar os dados do genero
+    let dadosNacionalidade = await controllerNacionalidade.getListarNacionalidade();
+
+    // Validação para verificar se existem dados
+    if(dadosNacionalidade){
+        response.json(dadosNacionalidade)
+        response.status(200);
+    }else{
+        response.json({message: 'Nenhum registro encontrado'})
+        response.status()
+    }
+});
+
+app.get('/v3/acmefilmes/nacionalidade/:id', cors(), async function(request, response, next){
+  // Recebe o id da requisição 
+  let idNacionalidade = request.params.id;
+
+  // Solicita para a controller o ator filtrando pelo id
+  let dadosNacionalidade = await controllerNacionalidade.getListarNacionalidadeById(idNacionalidade);
+
+   response.status(dadosNacionalidade.status_code);
+   response.json(dadosNacionalidade);
+ 
 });
 
 

@@ -68,9 +68,9 @@ const insertDiretor =  async function(dadosDiretores) {
         if( dadosDiretores.datafalecimento == null || 
             dadosDiretores.datafalecimento == ''   ||
             dadosDiretores.datafalecimento == undefined){
-                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', null, '${dadosDiretores.biografia}')`
+                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', null, '${dadosDiretores.biografia},  '${dadosDiretores.sexo_id},  '${dadosDiretores.nacionalidadediretor_id}, '${dadosDiretores.filme_id} ')`
             }else {
-                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', '${dadosDiretores.data_falecimento}', '${dadosAtores.biografia}')`
+                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', '${dadosDiretores.data_falecimento}', '${dadosAtores.biografia},  '${dadosDiretores.sexo_id},  '${dadosDiretores.nacionalidadediretor_id}, '${dadosDiretores.filme_id}')`
 
             }
         // Executa o script SQL no banco de dados | Devemos usar execute e não query!
