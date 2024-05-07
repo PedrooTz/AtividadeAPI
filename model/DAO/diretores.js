@@ -65,29 +65,20 @@ const insertDiretor =  async function(dadosDiretores) {
     try {
 
      let sql;
-<<<<<<< HEAD
+
         if( dadosDiretores.data_falecimento == null || 
             dadosDiretores.data_falecimento == ''   ||
             dadosDiretores.data_falecimento == undefined){
                 sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia, nacionalidadediretor_id, sexo_id, filme_id) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', null, '${dadosDiretores.biografia}', ${dadosDiretores.nacionalidadediretor_id}, ${dadosDiretores.sexo_id}, ${dadosDiretores.filme_id})`
             }else {
                 sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia,  nacionalidadediretor_id, sexo_id, filme_id) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', '${dadosDiretores.data_falecimento}', '${dadosDiretores.biografia}', ${dadosDiretores.nacionalidadediretor_id},   ${dadosDiretores.sexo_id}, ${dadosDiretores.filme_id})`
-=======
-        if( dadosDiretores.datafalecimento == null || 
-            dadosDiretores.datafalecimento == ''   ||
-            dadosDiretores.datafalecimento == undefined){
-                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia, nacionalidadediretor_id, sexo_id, filme_id) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', null, '${dadosDiretores.biografia}, '${dadosDiretores.nacionalidadediretor_id}, '${dadosDiretores.sexo_id}, '${dadosDiretores.filme_id} ')`
-            }else {
-                sql = `insert into tbl_diretores(nome, data_nascimento, foto, data_falecimento, biografia, nacionalidadediretor_id, sexo_id, filme_id) values ('${dadosDiretores.nome}', '${dadosDiretores.data_nascimento}', '${dadosDiretores.foto}', '${dadosDiretores.data_falecimento}', '${dadosAtores.biografia},  '${dadosDiretores.nacionalidadediretor_id}, '${dadosDiretores.sexo_id}, '${dadosDiretores.filme_id}')`
->>>>>>> 1dd55188539d574761434feaf65d01b603aa16be
-
             }
         // Executa o script SQL no banco de dados | Devemos usar execute e não query!
         // Execute deve ser utilizado para insert, update e delete, onde o banco não devolve dados
         let result = await prisma.$executeRawUnsafe(sql);
 
         // Validação para verificar se o insert funcionou no banco de dados
-        if(result )
+        if(result   )
             return true;
         else
             return false;
@@ -97,6 +88,7 @@ const insertDiretor =  async function(dadosDiretores) {
         
     }
 }
+
 
 const selectIdDiretor = async function() {
 

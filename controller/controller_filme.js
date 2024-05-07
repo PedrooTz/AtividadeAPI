@@ -42,8 +42,9 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
         dadosFilme.foto_capa == ''          || dadosFilme.foto_capa == undefined         || dadosFilme.foto_capa.length > 200         ||
         dadosFilme.valor_unitario.length > 8   ||
         dadosFilme.tbl_classificacao_id == '' || dadosFilme.tbl_classificacao_id == undefined || dadosFilme.tbl_classificacao_id == null  || 
-        dadosFilme.tbl_ator_filme_id == '' || dadosFilme.tbl_ator_filme_id == undefined || dadosFilme.tbl_ator_filme_id == null   ||
-        dadosFilme.tbl_genero_id == '' || dadosFilme.tbl_genero_id == undefined || dadosFilme.tbl_genero_id == null
+        dadosFilme.tbl_genero_id == '' || dadosFilme.tbl_genero_id == undefined || dadosFilme.tbl_genero_id == null ||
+        dadosFilme.tbl_ator_filme_id == '' || dadosFilme.tbl_ator_filme_id == undefined || dadosFilme.tbl_ator_filme_id == null   
+      
    
    
     ){

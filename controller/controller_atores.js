@@ -157,7 +157,9 @@ const setInserirNovoAtor = async (dadosAtores, contentType) => {
         dadosAtores.foto == ''                       || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 65000           || 
         dadosAtores.biografia == ''                  || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000         || 
         dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
-        dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1       
+        dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1   || 
+        dadosAtores.filme_ator_id == ''              || dadosAtores.filme_ator_id == undefined     ||    dadosAtores.filme_ator_id.length > 1  
+   
         
         
     ){
@@ -231,7 +233,8 @@ const setUpdateAtor = async function(id, contentType, dadosAtores){
             dadosAtores.foto == ''                       || dadosAtores.foto == undefined           ||dadosAtores.foto.length > 65000           || 
             dadosAtores.biografia == ''                  || dadosAtores.biografia == undefined   ||dadosAtores.biografia.length > 65000         || 
             dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
-            dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1       
+            dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1    ||
+            dadosAtores.filme_ator_id == ''              || dadosAtores.filme_ator_id == undefined     ||    dadosAtores.filme_ator_id.length > 1    
     
     
         ){
