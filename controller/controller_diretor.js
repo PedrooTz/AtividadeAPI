@@ -140,17 +140,17 @@ const setInserirNovoDiretor = async (dadosDiretores, contentType) => {
     
 
     // Cria a variável json
-    let resultDadosDiretor = {}
-
-    // Validação de campos obrigatórios e consistência de dados
-    if( dadosDiretores.nome == ''                       || dadosDiretores.nome == undefined              || dadosDiretores.nome.length > 150              ||
-        dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined            || dadosDiretores.data_nascimento.length > 10       || 
-        dadosDiretores.foto == ''                       || dadosDiretores.foto == undefined           ||dadosDiretores.foto.length > 65000           || 
-        dadosDiretores.biografia == ''                  || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   || 
-        dadosDiretores.nacionalidadediretor_id == ''           || dadosDiretores.nacionalidadediretor_id == undefined     ||    dadosDiretores.nacionalidadediretor_id.length > 1    ||
-        dadosDiretores.sexo_id == ''                    || dadosDiretores.sexo_id == undefined     ||    dadosDiretores.sexo_id.length > 1        || 
-        dadosDiretores.filme_id == ''           || dadosDiretores.filme_id == undefined     ||    dadosDiretores.filme_id.length > 1         
    
+    let resultDadosDiretor = {}
+    
+    // Validação de campos obrigatórios e consistência de dados
+    if( dadosDiretores.nome == ''                       || dadosDiretores.nome == undefined                        || dadosDiretores.nome.length > 150              ||
+        dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined             || dadosDiretores.data_nascimento.length > 10       || 
+        dadosDiretores.foto == ''                       || dadosDiretores.foto == undefined                        ||   dadosDiretores.foto.length > 65000           || 
+        dadosDiretores.biografia == ''                  || dadosDiretores.biografia == undefined                   ||   dadosDiretores.biografia.length > 65000   || 
+        dadosDiretores.nacionalidadediretor_id == ''    || dadosDiretores.nacionalidadediretor_id == undefined     ||    dadosDiretores.nacionalidadediretor_id.length > 1    ||
+        dadosDiretores.sexo_id == ''                    || dadosDiretores.sexo_id == undefined                     ||    dadosDiretores.sexo_id.length > 1        || 
+        dadosDiretores.filme_id == ''                   || dadosDiretores.filme_id == undefined                    ||    dadosDiretores.filme_id.length > 1     
         
     ){
         return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
@@ -177,10 +177,11 @@ const setInserirNovoDiretor = async (dadosDiretores, contentType) => {
 
         dadosDiretores.id = Number (idSelect[0].id)
         
+
+
         // Validação de inserção de dados no banco de dados 
         if(novoDiretor){
 
-           
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosDiretor.status = message.SUCESS_CREATED_ITEM.status;
             resultDadosDiretor.status_code = message.SUCESS_CREATED_ITEM.status_code;
@@ -190,7 +191,7 @@ const setInserirNovoDiretor = async (dadosDiretores, contentType) => {
             return resultDadosDiretor; // 201
         } else{
             return message.ERROR_INTERNAL_SERVER_DB; // 500 Erro na camada do DAO (Banco)
-            
+
     
          }
        }
@@ -222,8 +223,9 @@ const setUpdateDiretor = async function(id, contentType, dadosDiretores){
                 dadosDiretores.data_nascimento == ''            || dadosDiretores.data_nascimento == undefined            || dadosDiretores.data_nascimento.length > 10       || 
                 dadosDiretores.foto == ''            || dadosDiretores.foto == undefined           ||dadosDiretores.foto.length > 200             || 
                 dadosDiretores.biografia == ''    || dadosDiretores.biografia == undefined   ||dadosDiretores.biografia.length > 65000   ||
-                dadosAtores.sexo_id == ''                    || dadosAtores.sexo_id == undefined     ||    dadosAtores.sexo_id.length > 1        || 
-                dadosAtores.nacionalidade_id == ''           || dadosAtores.nacionalidade_id == undefined     ||    dadosAtores.nacionalidade_id.length > 1 
+                dadosDiretores.nacionalidadediretor_id == ''    || dadosDiretores.nacionalidadediretor_id == undefined     ||    dadosDiretores.nacionalidadediretor_id.length > 1    ||
+                dadosDiretores.sexo_id == ''                    || dadosDiretores.sexo_id == undefined                     ||    dadosDiretores.sexo_id.length > 1        || 
+                dadosDiretores.filme_id == ''                   || dadosDiretores.filme_id == undefined                    ||    dadosDiretores.filme_id.length > 1     
                 
             ){
                     return message.ERROR_REQUIRED_FIELDS // 400 Campos obrigatórios / Incorretos
@@ -257,14 +259,13 @@ const setUpdateDiretor = async function(id, contentType, dadosDiretores){
                       
             
                         let idSelect = await diretoresDAO.updateDiretor(id, dadosDiretores);
-            
-                        dadosDiretores.id = Number (idSelect[0].id)
+
 
                         
                         // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
-                        resultDadosDiretor.status = message.SUCESS_CREATED_ITEM.status;
-                        resultDadosDiretor.status_code = message.SUCESS_CREATED_ITEM.status_code;
-                        resultDadosDiretor.message = message.SUCESS_CREATED_ITEM.message;
+                        resultDadosDiretor.status = message.SUCESS_UPDATED_ITEM.status;
+                        resultDadosDiretor.status_code = message.SUCESS_UPDATED_ITEM.status_code;
+                        resultDadosDiretor.message = message.SUCESS_UPDATED_ITEM.message;
                         resultDadosDiretor.diretores = dadosDiretores;
             
                         return resultDadosDiretor; // 201
@@ -282,6 +283,7 @@ const setUpdateDiretor = async function(id, contentType, dadosDiretores){
 
         }
     } catch (error) {
+        console.log(error)
         return message.ERROR_INTERNAL_SERVER
         
     }
