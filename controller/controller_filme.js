@@ -79,6 +79,10 @@ const setInserirNovoFilme = async function(dadosFilme, contentType){
             let idSelect = await filmesDAO.selectIdFilme();
 
             dadosFilme.id = Number (idSelect[0].id)
+
+            //insert dos generos (idFilme, array(generos))
+            //insert dos atores
+            //insert dos diretores
             
             // Cria o padrão de JSOn para o retorno dos dados criados no banco de dados
             resultDadosFilme.status = message.SUCESS_CREATED_ITEM.status;
